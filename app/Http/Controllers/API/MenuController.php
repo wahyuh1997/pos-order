@@ -81,7 +81,10 @@ class MenuController extends Controller
             }
         }
 
-        return $this->return_success('Menu berhasil ditambahkan!', []);
+        $return = new Menu();
+        $return = $return->get_menu($menu->id);
+
+        return $this->return_success('Menu berhasil ditambahkan!', $return);
     }
     
     function get_all_menu(){
