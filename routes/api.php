@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/update_category', [MenuController::class, 'update_category']);
     
         Route::get('/get_menu/{id}', [MenuController::class, 'get_menu']);
+        Route::post('/insert_menu', [MenuController::class, 'insert_menu']);
 
         Route::get('/get_all_menu', [MenuController::class, 'get_all_menu']);
     });

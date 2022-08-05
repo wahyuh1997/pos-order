@@ -9,7 +9,7 @@ class MenuAtribute extends Model
 {
     use HasFactory;
 
-    protected $table = 'atribute';
+    protected $table = 'attribute';
     protected $fillable = ['nama', 'menu_id','harga'];
 
 }

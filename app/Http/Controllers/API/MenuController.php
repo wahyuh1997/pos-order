@@ -62,7 +62,17 @@ class MenuController extends Controller
         return $this->return_success('', $get_menu[0]);
     }
     
+    
+    function get_all_menu(){
+        $menu = new Menu();
+        
+        $get_menu = $menu->get_menu();
+        
+        return $this->return_success('', $get_menu);
+    }
+
     function insert_menu(Request $request){
+        // return $request;die;
         $menu = Menu::create([
             'nama_menu' => $request->nama_menu,
             'jenis' => $request->jenis,
@@ -70,28 +80,20 @@ class MenuController extends Controller
             'harga' => $request->harga,
             'keterangan' => $request->keterangan
         ]);
-
+    
         if (count($request->attribute) > 0) {
             for ($i=0; $i < count($request->attribute) ; $i++) { 
                 MenuAtribute::create([
-                    'nama' => $request->attribute['nama'],
+                    'nama' => $request->attribute[$i]['nama'],
                     'menu_id' => $menu->id,
-                    'harga' => $request->attribute['harga'],
+                    'harga' => $request->attribute[$i]['harga'],
                 ]);
             }
         }
-
+    
         $return = new Menu();
         $return = $return->get_menu($menu->id);
-
-        return $this->return_success('Menu berhasil ditambahkan!', $return);
-    }
     
-    function get_all_menu(){
-        $menu = new Menu();
-
-        $get_menu = $menu->get_menu();
-
-        return $this->return_success('', $get_menu);
+        return $this->return_success('Menu berhasil ditambahkan!', $return);
     }
 }
