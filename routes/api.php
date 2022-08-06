@@ -36,16 +36,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     
     Route::prefix('menu')->group(function(){
+        // Kategori Menu
         Route::post('/create_category', [MenuController::class, 'create_category']);
         Route::get('/get_category/{id}', [MenuController::class, 'get_category']);
         Route::get('/get_all_category', [MenuController::class, 'get_all_category']);
         Route::delete('/delete_category/{id}', [MenuController::class, 'delete_category']);
-        Route::post('/update_category', [MenuController::class, 'update_category']);
+        Route::put('/update_category/{id}', [MenuController::class, 'update_category']);
     
+        // Menu
         Route::get('/get_menu/{id}', [MenuController::class, 'get_menu']);
         Route::post('/insert_menu', [MenuController::class, 'insert_menu']);
-
         Route::get('/get_all_menu', [MenuController::class, 'get_all_menu']);
+        Route::put('/edit_menu/{id}', [MenuController::class, 'edit_menu']);
+        Route::delete('/delete_menu/{id}', [MenuController::class, 'delete_menu']);
+        
+        Route::delete('/delete_attribute/{nama}', [MenuController::class, 'delete_attribute']);
+        Route::get('/get_name_attribute', [MenuController::class, 'get_name_attribute']);
     });
 
 

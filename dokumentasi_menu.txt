@@ -1,0 +1,98 @@
+# insert menu
+url : /api/menu/insert_menu/
+method : Post
+header : must token
+request : 
+    nama_menu:jus mangga
+    jenis:minuman
+    kategori_id:1
+    harga:500000
+    keterangan:segar
+    image:ini gambar
+    attribute[0][nama]:Reguler
+    attribute[0][harga]:0
+
+--------------------------------------------------------------------------------
+
+# get menu
+url : /api/menu/get_menu/{id}
+method : get
+header : must token
+
+--------------------------------------------------------------------------------
+
+# get all menu
+url : /api/menu/get_all_menu/{id}
+method : get
+header : must token
+
+--------------------------------------------------------------------------------
+
+# edit menu
+url : /api/menu/edit_menu/{id}
+method : Put
+header : must token
+request : 
+    nama_menu:jus mangga
+    jenis:minuman
+    kategori_id:1
+    harga:500000
+    keterangan:segar
+    image:ini gambar
+    attribute[0][nama]:Reguler
+    attribute[0][harga]:0
+
+--------------------------------------------------------------------------------
+
+# delete menu
+url : /api/menu/delete_menu/{id}
+method : delete
+header : must token
+
+--------------------------------------------------------------------------------
+
+# create category
+url : /api/menu/create_category
+method : post
+header : must token
+request : 
+    nama_kategori:pencuci mulut
+
+--------------------------------------------------------------------------------
+
+# update category
+url : /api/menu/update_category/{id}
+method : put
+header : must token
+request : 
+    nama_kategori:pencuci mulut
+
+--------------------------------------------------------------------------------
+
+# get category
+url : /api/menu/get_category/{id}
+method : get
+header : must token
+
+--------------------------------------------------------------------------------
+
+# get all category
+url : /api/menu/get_all_category/{id}
+method : get
+header : must token
+
+--------------------------------------------------------------------------------
+
+# delete attribute
+url : /api/menu/delete_attribute/{id}
+method : delete
+header : must token
+
+--------------------------------------------------------------------------------
+
+# get name attribute
+url : /api/menu/get_name_attribute/
+method : get
+header : must token 
+
+--------------------------------------------------------------------------------

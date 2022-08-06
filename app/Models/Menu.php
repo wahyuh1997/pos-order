@@ -11,12 +11,12 @@ class Menu extends Model
     use HasFactory;
 
     protected $table = 'menu';
-    protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga', 'keterangan'];
+    protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga', 'keterangan','gambar'];
 
     function get_menu($id = null)
     {
 
-        $sql = "select a.id, a.nama_menu, a.jenis, a.keterangan, b.nama_kategori, a.kategori_id, a.harga
+        $sql = "select a.id, a.nama_menu, a.jenis, a.keterangan, b.nama_kategori, a.kategori_id, a.harga, a.image
                 from $this->table a
                 left join menu_kategori b on a.kategori_id = b.id
                 
@@ -39,7 +39,7 @@ class Menu extends Model
 
     function get_all_atribute($id)
     {
-        $sql = "select id, nama, harga
+        $sql = "select nama, harga
                 from attribute
                 where menu_id = $id
         ";

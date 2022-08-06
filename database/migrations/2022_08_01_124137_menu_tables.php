@@ -29,6 +29,7 @@ class MenuTables extends Migration
             $table->bigInteger('kategori_id');
             $table->float('harga',20,2);
             $table->text('keterangan');
+            $table->text('image');
             $table->timestamps();
         });
         
@@ -54,6 +55,7 @@ class MenuTables extends Migration
             $table->bigInteger('menu_id');
             $table->float('harga',20,2);
             $table->string('keterangan')->nullable();
+            $table->string('name_attribute')->nullable();
             $table->timestamps();
         });
     }
