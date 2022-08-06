@@ -151,7 +151,7 @@ class MenuController extends Controller
         return $this->return_success('Menu berhasil dihapus!',[]);
     }
     
-    function delete_menu($nama)
+    function delete_attribute($nama)
     {
         MenuAtribute::where('nama', $nama)->delete();
         
