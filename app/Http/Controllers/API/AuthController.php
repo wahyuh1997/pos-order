@@ -49,7 +49,7 @@ class AuthController extends Controller
         $data = [
             'access_token' => $token, 'token_type' => 'Bearer', 
             'detail_user' => $user
-        ]
+        ];
         return $this->return_success('Hi '.$user->name.', kamu sudah login',$data);
     }
 
