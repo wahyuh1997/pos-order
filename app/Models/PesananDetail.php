@@ -11,6 +11,8 @@ class PesananDetail extends Model
 
     protected $table = 'pesanan_detail';
 
+    protected $fillable = [''];
+
     public function getUpdatedAtAttribute()
     {
     return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');

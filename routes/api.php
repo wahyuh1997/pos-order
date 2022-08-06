@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\API\PesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::delete('/delete_attribute/{nama}', [MenuController::class, 'delete_attribute']);
         Route::get('/get_name_attribute', [MenuController::class, 'get_name_attribute']);
     });
+    
+    Route::prefix('order')->group(function(){
+        Route::post('/insert_order', [PesananController::class, 'insert_order']);
+        Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
+        Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
+    });
+
 
 
 });

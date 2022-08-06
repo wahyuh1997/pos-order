@@ -77,14 +77,7 @@ class MenuController extends Controller
 
     function insert_menu(Request $request){
         // return $request;die;
-        $menu = Menu::create([
-            'nama_menu' => $request->nama_menu,
-            'jenis' => $request->jenis,
-            'kategori_id' => $request->kategori_id, 
-            'harga' => $request->harga,
-            'keterangan' => $request->keterangan,
-            'image' => $request->image,
-        ]);
+        $menu = Menu::create($this->get_field_menu_request($request));
     
         if ($request->attribute) {
             for ($i=0; $i < count($request->attribute) ; $i++) { 
@@ -106,14 +99,7 @@ class MenuController extends Controller
         // return $request;die;
         $menu = Menu::findOrFail($request->id);
 
-        $menu->update([
-            'nama_menu' => $request->nama_menu,
-            'jenis' => $request->jenis,
-            'kategori_id' => $request->kategori_id, 
-            'harga' => $request->harga,
-            'keterangan' => $request->keterangan,
-            'image' => $request->image,
-        ]);
+        $menu->update($this->get_field_menu_request($request));
     
         if ($request->attribute) {
             for ($i=0; $i < count($request->attribute) ; $i++) {
@@ -165,5 +151,19 @@ class MenuController extends Controller
         ];
 
         return $this->return_success('',$data);
+    }
+
+    private function get_field_menu_request($request)
+    {
+        $data = [
+            'nama_menu' => $request->nama_menu,
+            'jenis' => $request->jenis,
+            'kategori_id' => $request->kategori_id, 
+            'harga' => $request->harga,
+            'keterangan' => $request->keterangan,
+            'image' => $request->image,
+        ];
+
+        return $data;
     }
 }

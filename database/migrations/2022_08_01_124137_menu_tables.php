@@ -42,10 +42,19 @@ class MenuTables extends Migration
         
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id();
-            $table->string('no_pesanan');
+            $table->string('no_order');
+            $table->string('no_receip')->nullable();
             $table->bigInteger('meja_id')->nullable();
             $table->string('nama_pelanggan')->nullable();
-            $table->integer('status')->default(0)->comment('0 = proses beli, 2 = proses kasir, 3 = dapur, 4 = selesai');
+            $table->string('payment_type')->nullable();
+            $table->integer('status', 1)->default(0)->comment('0 = input kasir, 2 = selesai, 1 = batal')->autoIncrement(false);
+            $table->integer('checkout', 1)->default(0)->comment('0 = belum bayar, 1 = bayar')->autoIncrement(false);
+            $table->timestamps();
+        });
+        
+        Schema::create('meja', function (Blueprint $table) {
+            $table->id();
+            $table->string('no_meja')->autoIncrement(false);
             $table->timestamps();
         });
         
@@ -56,6 +65,8 @@ class MenuTables extends Migration
             $table->float('harga',20,2);
             $table->string('keterangan')->nullable();
             $table->string('name_attribute')->nullable();
+            $table->integer('qty',3)->default(1)->autoIncrement(false);
+            $table->integer('status', 1)->default(0)->comment('0 = belum bayar, 1 = bayar')->autoIncrement(false);
             $table->timestamps();
         });
     }
@@ -72,5 +83,6 @@ class MenuTables extends Migration
         Schema::drop('pesanan');
         Schema::drop('pesanan_detail');
         Schema::drop('menu_kategori');
+        Schema::drop('meja');
     }
 }
