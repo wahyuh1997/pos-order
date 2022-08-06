@@ -115,7 +115,7 @@ class MenuController extends Controller
             'image' => $request->image,
         ]);
     
-        if (count($request->attribute) > 0) {
+        if ($request->attribute) {
             for ($i=0; $i < count($request->attribute) ; $i++) {
                 $attribute = $request->attribute[$i];
 
