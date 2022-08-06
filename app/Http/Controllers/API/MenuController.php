@@ -86,7 +86,7 @@ class MenuController extends Controller
             'image' => $request->image,
         ]);
     
-        if (count($request->attribute) > 0) {
+        if ($request->attribute) {
             for ($i=0; $i < count($request->attribute) ; $i++) { 
                 MenuAtribute::create([
                     'nama' => $request->attribute[$i]['nama'],
@@ -94,6 +94,7 @@ class MenuController extends Controller
                     'harga' => $request->attribute[$i]['harga'],
                 ]);
             }
+            return $request;
         }
     
         $return = new Menu();
