@@ -10,4 +10,14 @@ class Pesanan extends Model
     use HasFactory;
 
     protected $table = 'pesanan';
+
+    public function getUpdatedAtAttribute()
+    {
+    return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+    return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
+    }
 }
