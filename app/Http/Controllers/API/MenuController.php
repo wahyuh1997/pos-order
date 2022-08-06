@@ -140,7 +140,7 @@ class MenuController extends Controller
         return $this->return_success('Menu berhasil diubah!', $return);
     }
 
-    function delete_attribute($id)
+    function delete_menu($id)
     {
         $menu = Menu::findOrfail($id);
 
