@@ -96,8 +96,11 @@ class MenuController extends Controller
     }
     
     function edit_menu($id,Request $request){
-        $menu = Menu::findOrFail($id);
-        
+        try {
+            $menu = Menu::findOrFail($id);
+        } catch (\Exception $e) {
+            return $this->return_failed('data tidak ada');
+        }
         if (!$menu) {
             return $this->return_failed('Menu tidak ada');
         }
