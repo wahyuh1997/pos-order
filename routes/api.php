@@ -19,11 +19,17 @@ use App\Http\Controllers\API\PesananController;
 */
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+//         return $request->user();
+//     });
+
+Route::prefix('order')->group(function(){
+    Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
+});
+
+
 
 Route::post('/register', [AuthController::class, 'register']);
-
+    
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/set_role', [AuthController::class, 'set_role']);
@@ -58,7 +64,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::prefix('order')->group(function(){
         Route::post('/insert_order', [PesananController::class, 'insert_order']);
         Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
-        Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
+        
+        Route::post('/insert_order_detail/{id}', [PesananController::class, 'get_order']);
     });
 
 

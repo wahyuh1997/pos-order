@@ -35,13 +35,15 @@ class PesananController extends Controller
 
     function insert_order_detail(Request $request)
     {
+        $model = new Pesanan();
         $pesanan = Pesanan::find($request->data['pesanan_id']);
-        if (!$pesanan->checkout == 0) {
+        if ($pesanan->checkout == 0) {
             $data = [];
             foreach ($request->data as $key => $value) {
                 $data[$key] = $value;
             }
-            return $data;
+            PesananDetail::create($data);
+            return $this->return_success('',$model->get_pesanan($pesanan->id));
         } else {
             return $this->return_failed('Orderan anda sudah selesai');
         }
