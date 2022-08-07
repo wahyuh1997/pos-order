@@ -160,7 +160,7 @@ class MenuController extends Controller
             'jenis' => $request->jenis,
             'kategori_id' => $request->kategori_id, 
             'harga' => $request->harga,
-            'keterangan' => $request->keterangan,
+            'keterangan' => strlen($request->keterangan) < 1? null:$request->keterangan,
             'image' => $request->image,
         ];
 
