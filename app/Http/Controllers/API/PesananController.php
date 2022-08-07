@@ -33,6 +33,20 @@ class PesananController extends Controller
         return $this->return_success('Menu berhasil ditambahkan!', $model->get_pesanan($pesanan->id));
     }
 
+    function insert_order_detail(Request $request)
+    {
+        $pesanan = Pesanan::find($request->data['pesanan_id']);
+        if (!$pesanan->checkout == 0) {
+            $data = [];
+            foreach ($request->data as $key => $value) {
+                $data[$key] = $value;
+            }
+            return $data;
+        } else {
+            return $this->return_failed('Orderan anda sudah selesai');
+        }
+    }
+
     private function get_field_pesanan_request($request)
     {
         $data = [

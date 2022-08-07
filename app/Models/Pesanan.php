@@ -29,10 +29,10 @@ class Pesanan extends Model
 
         $sql = "select a.*
                 ,(select 
-                    (case when harga is null then 0 else (harga*qty) end) harga
+                    (case when harga is null then 0 else (sub_harga*qty) end) harga
                 from pesanan_detail 
                 where pesanan_id = a.id
-                ) as harga
+                ) as total_harga
                 , a.meja_id, b.no_meja
                 ,a.updated_at, a.created_at
                 from $this->table a
@@ -62,7 +62,7 @@ class Pesanan extends Model
 
     function get_all_detail($id)
     {
-        $sql = "select a.id, a.harga, (a.harga*a.qty) as sub_harga, a.qty, a.menu_id, b.nama_menu, a.name_attribute, a.status, a.created_at, a.updated_at
+        $sql = "select a.id, a.harga, a.sub_harga, a.qty, a.menu_id, b.nama_menu, a.name_attribute, a.status, a.created_at, a.updated_at
                 from pesanan_detail a
                 left join menu b on a.menu_id = b.id
                 where a.pesanan_id = :pesanan_id

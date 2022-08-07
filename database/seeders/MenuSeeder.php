@@ -59,6 +59,7 @@ class MenuSeeder extends Seeder
             , 'name_attribute' => $attribut->nama
             , 'status' => 1
             , 'harga' => $menu->harga
+            , 'sub_harga' => $menu->harga + $attribut->harga
         ]);
     }
 }

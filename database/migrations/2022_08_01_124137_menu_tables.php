@@ -63,6 +63,7 @@ class MenuTables extends Migration
             $table->bigInteger('pesanan_id');
             $table->bigInteger('menu_id');
             $table->float('harga',20,2);
+            $table->float('sub_harga',20,2);
             $table->string('keterangan')->nullable();
             $table->string('name_attribute')->nullable();
             $table->integer('qty',3)->default(1)->autoIncrement(false);
