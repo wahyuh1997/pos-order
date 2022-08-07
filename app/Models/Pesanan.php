@@ -14,6 +14,10 @@ class Pesanan extends Model
 
     protected $fillable = ['no_order','no_receip','meja_id','nama_pelanggan','status','checkout'];
 
+    function get_field(){
+        return $this->fillable;
+    }
+
     public function getUpdatedAtAttribute()
     {
     return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
@@ -37,6 +41,7 @@ class Pesanan extends Model
                 ,a.updated_at, a.created_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
+                sort by a.created_by desc
                 ";
         if (strlen($id) > 0) {
             $sql .= "where a.id = $id";
