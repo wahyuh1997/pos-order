@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Pesanan;
 use App\Models\PesananDetail;
+use Exception;
 use Illuminate\Http\Request;
 
 class PesananController extends Controller
@@ -35,17 +36,21 @@ class PesananController extends Controller
 
     function insert_order_detail(Request $request)
     {
-        $model = new Pesanan();
-        $pesanan = Pesanan::find($request->data['pesanan_id']);
-        if ($pesanan->checkout == 0) {
-            $data = [];
-            foreach ($request->data as $key => $value) {
-                $data[$key] = $value;
+        try {
+            $model = new Pesanan();
+            $pesanan = Pesanan::find($request->data['pesanan_id']);
+            if ($pesanan->checkout == 0) {
+                $data = [];
+                foreach ($request->data as $key => $value) {
+                    $data[$key] = $value;
+                }
+                PesananDetail::create($data);
+                return $this->return_success('',$model->get_pesanan($pesanan->id));
+            } else {
+                return $this->return_failed('Orderan anda sudah selesai');
             }
-            PesananDetail::create($data);
-            return $this->return_success('',$model->get_pesanan($pesanan->id));
-        } else {
-            return $this->return_failed('Orderan anda sudah selesai');
+        } catch (Exception $e) {
+            return $this->return_failed($e->getMessage());
         }
     }
 
