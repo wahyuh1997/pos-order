@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class Pesanan extends Model
@@ -48,7 +49,7 @@ class Pesanan extends Model
                 ,a.updated_at, a.created_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
-                sort by a.created_by desc
+                order by a.created_at desc
                 ";
         if (strlen($id) > 0) {
             $sql .= "where a.id = $id";
@@ -59,7 +60,9 @@ class Pesanan extends Model
 
         for ($i=0; $i <count($data); $i++) { 
             $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
+            $data[$i]['kode_unik'] = Crypt::encryptString($data[$i]['id']);
         }
+
 
         return $data;
 

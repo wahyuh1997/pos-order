@@ -8,8 +8,10 @@ use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\PesananController;
 
 Route::prefix('customer')->group(function(){
-    Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
+    Route::get('/get_order/{code}', [PesananController::class, 'get_qr_code']);
+    
     Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
+    Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
     Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
 });
 

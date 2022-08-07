@@ -7,6 +7,7 @@ use App\Models\Pesanan;
 use App\Models\PesananDetail;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class PesananController extends Controller
 {
@@ -91,5 +92,17 @@ class PesananController extends Controller
         ];
 
         return $data;
+    }
+
+    function get_qr_code($code)
+    {
+        try {
+            $id = Crypt::decryptString($code);
+            // return $id;
+            $model = new Pesanan();
+            return $this->return_success('', $model->get_pesanan());
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }
