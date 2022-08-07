@@ -27,7 +27,7 @@ class Pesanan extends Model
     function get_pesanan($id = null)
     {
 
-        $sql = "select a.*
+        $sql = "select a.*, b.no_meja
                 ,(select 
                     (case when harga is null then 0 else (sub_harga*qty) end) harga
                 from pesanan_detail 
