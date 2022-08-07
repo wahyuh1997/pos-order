@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\MenuAtribute;
 use App\Models\MenuKategori;
 use Attribute;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\Contracts\HasApiTokens;
@@ -78,21 +79,24 @@ class MenuController extends Controller
     function insert_menu(Request $request){
         // return $request;die;
         $menu = Menu::create($this->get_field_menu_request($request));
-    
-        if ($request->attribute) {
-            for ($i=0; $i < count($request->attribute) ; $i++) { 
-                MenuAtribute::create([
-                    'nama' => $request->attribute[$i]['nama'],
-                    'menu_id' => $menu->id,
-                    'harga' => $request->attribute[$i]['harga'],
-                ]);
+        try {
+            if ($request->attribute) {
+                for ($i=0; $i < count($request->attribute) ; $i++) { 
+                    MenuAtribute::create([
+                        'nama' => $request->attribute[$i]['nama'],
+                        'menu_id' => $menu->id,
+                        'harga' => $request->attribute[$i]['harga'],
+                    ]);
+                }
+                return $request;
             }
-            return $request;
+        
+            $return = new Menu();
+            $return = $return->get_menu($menu->id);
+            return $this->return_success('Menu berhasil ditambahkan!', $return);
+        } catch (\Exception $e) {
+            return $this->return_success($e->getMessage());
         }
-    
-        $return = new Menu();
-        $return = $return->get_menu($menu->id);
-        return $this->return_success('Menu berhasil ditambahkan!', $return);
     }
     
     function edit_menu($id,Request $request){
