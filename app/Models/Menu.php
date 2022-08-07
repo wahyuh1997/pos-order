@@ -11,7 +11,7 @@ class Menu extends Model
     use HasFactory;
 
     protected $table = 'menu';
-    protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga', 'keterangan','image'];
+    protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga','image'];
 
     function get_menu($id = null)
     {

@@ -96,9 +96,12 @@ class MenuController extends Controller
     }
     
     function edit_menu($id,Request $request){
-        // return $request;die;
         $menu = Menu::findOrFail($request->id);
-
+        
+        if (!$menu) {
+            return $this->return_failed('Menu tidak ada');
+        }
+        // return $menu;die;
         $menu->update($this->get_field_menu_request($request));
     
         if ($request->attribute) {
@@ -160,7 +163,7 @@ class MenuController extends Controller
             'jenis' => $request->jenis,
             'kategori_id' => $request->kategori_id, 
             'harga' => $request->harga,
-            'keterangan' => strlen($request->keterangan) < 1? null:$request->keterangan,
+            'keterangan' => $request->keterangan,
             'image' => $request->image,
         ];
 
