@@ -95,7 +95,7 @@ class MenuController extends Controller
             $return = $return->get_menu($menu->id);
             return $this->return_success('Menu berhasil ditambahkan!', $return);
         } catch (\Exception $e) {
-            return $this->return_success($e->getMessage());
+            return $this->return_failed($e->getMessage());
         }
     }
     
