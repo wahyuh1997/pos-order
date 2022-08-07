@@ -11,7 +11,7 @@ class PesananDetail extends Model
 
     protected $table = 'pesanan_detail';
 
-    protected $fillable = [''];
+    protected $guarded = ['id'];
 
     public function getUpdatedAtAttribute()
     {

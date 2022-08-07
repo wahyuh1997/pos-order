@@ -7,25 +7,11 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\PesananController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//         return $request->user();
-//     });
-
-Route::prefix('order')->group(function(){
+Route::prefix('customer')->group(function(){
     Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
+    Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
+    Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
 });
-
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -63,9 +49,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::prefix('order')->group(function(){
         Route::post('/insert_order', [PesananController::class, 'insert_order']);
+        Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
         Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
+        Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
         
-        Route::post('/insert_order_detail/{id}', [PesananController::class, 'get_order']);
+        Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
+    });
+
+    Route::prefix('dapur')->prefix(function(){
+        Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
+        Route::get('/update', [PesananController::class, 'update_order']);
     });
 
 

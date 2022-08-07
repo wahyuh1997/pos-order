@@ -54,6 +54,35 @@ class PesananController extends Controller
         }
     }
 
+    function update_order($id, Request $request)
+    {
+        $model = new Pesanan();
+        $data = $model->get_field($request);
+
+        try {
+            $pesanan = Pesanan::findOrFail($id);
+
+            $pesanan->update($data);
+            return $this->return_success('berhasil!', []);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+    
+    function update_order_detail($id, Request $request)
+    {
+        try {
+            $pesanan = PesananDetail::findOrFail($id);
+
+            $pesanan->update([
+                'status' => $request->data[['status']]
+            ]);
+            return $this->return_success('berhasil!', []);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+
     private function get_field_pesanan_request($request)
     {
         $data = [

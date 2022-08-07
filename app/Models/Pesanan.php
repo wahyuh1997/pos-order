@@ -14,8 +14,15 @@ class Pesanan extends Model
 
     protected $fillable = ['no_order','no_receip','meja_id','nama_pelanggan','status','checkout'];
 
-    function get_field(){
-        return $this->fillable;
+    function get_field($request){
+        // return $this->fillable;
+        $data = [];
+        foreach ($request->data as $key => $value) {
+            if (in_array($key,$this->fillable)) {
+                $data[$key] = $value;
+            }
+        }
+        return $data;
     }
 
     public function getUpdatedAtAttribute()
