@@ -39,13 +39,18 @@ class PesananController extends Controller
     {
         try {
             $model = new Pesanan();
-            $pesanan = Pesanan::find($request->data['pesanan_id']);
+            $pesanan = Pesanan::find($request->pesanan_id);
             if ($pesanan->checkout == 0) {
-                $data = [];
-                foreach ($request->data as $key => $value) {
-                    $data[$key] = $value;
+                for ($i=0; $i <count($request->data); $i++) { 
+                    $data = [];
+                    $data['pesanan'] = $pesanan->id;
+
+                    $insert = $request->data[$i];
+                    foreach ($insert as $key => $value) {
+                        $data[$key] = $value;
+                    }
+                    PesananDetail::create($data);
                 }
-                PesananDetail::create($data);
                 return $this->return_success('',$model->get_pesanan($pesanan->id));
             } else {
                 return $this->return_failed('Orderan anda sudah selesai');
@@ -98,11 +103,12 @@ class PesananController extends Controller
     {
         try {
             $id = Crypt::decryptString($code);
-            // return $id;
             $model = new Pesanan();
             return $this->return_success('', $model->get_pesanan());
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (\Throwable $e) {
+            return $this->return_failed($e->getMessage());
         }
+
+        
     }
 }

@@ -16,7 +16,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required|string|max:50',
             'username' => 'required|string|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string'
         ]);
         
         if($validator->fails()){
@@ -34,6 +34,7 @@ class AuthController extends Controller
     
     public function login(Request $request)
     {
+        // return $request;
         if (!Auth::attempt($request->only('username', 'password')))
         {
             return $this->return_failed('Username atau password salah',[]);
@@ -41,10 +42,10 @@ class AuthController extends Controller
         
         $user = User::where('username', $request['username'])->firstOrFail();
         
+        return $user->tokens()->delete();
+
         $token = $user->createToken('auth_token')->plainTextToken;
-        
-        // return response()
-        //     ->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
+
         $data = [
             'access_token' => $token, 'token_type' => 'Bearer', 
             'detail_user' => $user
@@ -68,6 +69,93 @@ class AuthController extends Controller
         ];
 
         return $this->return_success('',$data);
+    }
+
+    public function get_user($username)
+    {
+        try {
+            $user = User::where('username', $username)->firstOrFail();
+            
+            return $this->return_success('',$user);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+    
+    public function get_all_user()
+    {
+        try {
+            $user = User::select('*')->orderBy('created_at', 'desc')->get();
+            return $this->return_success('',$user);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+
+    public function edit_user($username, Request $request)
+    {
+        try {
+            $user = User::where('username', $username)->firstOrFail();
+
+            $validator = Validator::make($request->all(),[
+                'name' => 'string|max:50',
+                'username' => 'string|max:255|unique:users',
+            ]);
+
+            if($validator->fails()){
+                return $this->return_failed($validator->errors());
+            }
+
+            $user->update([
+                'name' => $request->name,
+                'role' => $request->role
+            ]);
+
+            if (strlen($request->password) < 1) {
+                $user->update([
+                    'password' => Hash::make($request->password)
+                ]);
+            }
+            
+            if (strlen($request->role) < 1) {
+                $user->update([
+                    'role' => $request->role
+                ]);
+            }
+
+            return $this->return_success('data berhasil diubah!',$user);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+    
+    public function reset_password($username)
+    {
+        try {
+            $user = User::where('username', $username)->firstOrFail();
+            
+            $user->update([
+                'password' => Hash::make('12345678'),
+            ]);
+
+            return $this->return_success('password di reset menjadi "12345678"',$user);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+    
+    public function delete_user($username)
+    {
+        // return $username;
+        try {
+            $user = User::where('username', $username)->firstOrFail();
+            
+            $user->delete();
+
+            return $this->return_success('user dihapus',[]);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
     }
 
 

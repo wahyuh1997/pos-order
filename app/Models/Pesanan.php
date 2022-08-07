@@ -49,11 +49,11 @@ class Pesanan extends Model
                 ,a.updated_at, a.created_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
-                order by a.created_at desc
                 ";
         if (strlen($id) > 0) {
-            $sql .= "where a.id = $id";
+            $sql .= "where a.id = $id ";
         }
+        $sql .= "order by a.created_at desc";
         
         $data = json_decode(json_encode(DB::select($sql)), true);
 

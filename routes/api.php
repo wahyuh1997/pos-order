@@ -26,6 +26,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/home', function(Request $request) {
         return $request->user();
     });
+
+    Route::prefix('auth')->group(function(){
+        Route::get('get_user/{username}', [AuthController::class, 'get_user']);
+        Route::get('get_all_user/', [AuthController::class, 'get_all_user']);
+        
+        Route::put('update_user/{username}', [AuthController::class, 'edit_user']);
+        Route::put('reset_password/{username}', [AuthController::class, 'reset_password']);
+        Route::delete('delete_user/{username}', [AuthController::class, 'delete_user']);
+    });
     
     Route::get('/logout', [AuthController::class, 'logout']);
     
