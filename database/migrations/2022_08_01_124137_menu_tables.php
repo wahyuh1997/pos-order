@@ -28,7 +28,7 @@ class MenuTables extends Migration
             $table->enum('jenis',['makanan', 'minuman']);
             $table->bigInteger('kategori_id');
             $table->float('harga',20,2);
-            $table->text('keterangan');
+            $table->text('keterangan')->nullable();
             $table->text('image');
             $table->timestamps();
         });
