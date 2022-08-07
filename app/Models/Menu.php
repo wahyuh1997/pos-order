@@ -12,6 +12,7 @@ class Menu extends Model
 
     protected $table = 'menu';
     protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga','image'];
+    protected $guarded = ['id'];
 
     function get_menu($id = null)
     {
