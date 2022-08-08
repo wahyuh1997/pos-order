@@ -2,11 +2,8 @@
 
 namespace App\Exceptions;
 
-use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-// use Illuminate\Foundation\Bootstrap\HandleExceptions;
 
 class Handler extends ExceptionHandler
 {
@@ -38,18 +35,7 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            return \response()->json('Anda Belum Login', 401);
+            //
         });
-    }
-
-    public function render($request, Throwable $exception)
-    {
-        if ($exception instanceof AuthorizationException) {
-            return response()->json([
-            'message' => 'Not authenticated'
-            ],401);
-        }
-    
-        return parent::render($request, $exception);
     }
 }
