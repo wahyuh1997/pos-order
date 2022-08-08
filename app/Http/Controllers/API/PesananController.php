@@ -22,7 +22,7 @@ class PesananController extends Controller
     {
         $model = new Pesanan();
 
-        return $this->return_success('',$model->get_pesanan($id));
+        return $this->return_success('',$model->get_pesanan($id)[0]);
     }
 
     function insert_order(Request $request){
@@ -32,7 +32,7 @@ class PesananController extends Controller
         $data['no_order'] = $model->create_no_pesanan();
         $pesanan = Pesanan::create($data);
     
-        return $this->return_success('Menu berhasil ditambahkan!', $model->get_pesanan($pesanan->id));
+        return $this->return_success('Menu berhasil ditambahkan!', $model->get_pesanan($pesanan->id)[0]);
     }
 
     function insert_order_detail(Request $request)
@@ -51,7 +51,7 @@ class PesananController extends Controller
                     }
                     PesananDetail::create($data);
                 }
-                return $this->return_success('',$model->get_pesanan($pesanan->id));
+                return $this->return_success('',$model->get_pesanan($pesanan->id)[0]);
             } else {
                 return $this->return_failed('Orderan anda sudah selesai');
             }
@@ -104,7 +104,7 @@ class PesananController extends Controller
         try {
             $id = Crypt::decryptString($code);
             $model = new Pesanan();
-            return $this->return_success('', $model->get_pesanan());
+            return $this->return_success('', $model->get_pesanan()[0]);
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }
