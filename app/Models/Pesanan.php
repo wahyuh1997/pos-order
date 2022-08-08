@@ -60,7 +60,9 @@ class Pesanan extends Model
 
         for ($i=0; $i <count($data); $i++) { 
             $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
-            $data[$i]['kode_unik'] = Crypt::encryptString($data[$i]['id']);
+            // $data[$i]['kode_unik'] = Crypt::encryptString($data[$i]['id']);
+            // $data[$i]['kode_unik'] = base64_encode($data[$i]['id']);
+            $data[$i]['kode_unik'] = $this->encrypt_decrypt('encrypt', $data[$i]['id']);
         }
 
 
@@ -159,6 +161,24 @@ class Pesanan extends Model
             'top_menu' => $this->top_menu(),
         ];
         return $data;
+    }
+
+    function encrypt_decrypt($action, $string){
+        $output = false;
+        $encrypt_method = "AES-256-CBC";
+        $secret_key = 'key_one';
+        $secret_iv = 'key_two';
+        // hash
+        $key = hash('sha256', $secret_key);
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hash('sha256', $secret_iv), 0, 16);
+        if ( $action == 'encrypt' ) {
+            $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+            $output = base64_encode($output);
+        } else if( $action == 'decrypt' ) {
+            $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        }
+        return $output;
     }
 }
         
