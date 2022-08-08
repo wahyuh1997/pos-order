@@ -42,7 +42,7 @@ class AuthController extends Controller
         
         $user = User::where('username', $request['username'])->firstOrFail();
         
-        return $user->tokens()->delete();
+        $user->tokens()->delete();
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
