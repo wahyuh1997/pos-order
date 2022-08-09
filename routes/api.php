@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\PesananController;
 
@@ -26,6 +27,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/home', function(Request $request) {
         return $request->user();
     });
+
+    Route::get('dashboard', [DashboardController::class, 'get_dashboard']);
 
     Route::prefix('auth')->group(function(){
         Route::get('get_user/{username}', [AuthController::class, 'get_user']);
