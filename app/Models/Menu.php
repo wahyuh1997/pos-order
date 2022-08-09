@@ -11,13 +11,13 @@ class Menu extends Model
     use HasFactory;
 
     protected $table = 'menu';
-    protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga','image'];
+    protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga','image','status'];
     protected $guarded = ['id'];
 
     function get_menu($id = null)
     {
 
-        $sql = "select a.id, a.nama_menu, a.jenis, a.keterangan, b.nama_kategori, a.kategori_id, a.harga, a.image, a.updated_at, a.created_at
+        $sql = "select a.id, a.nama_menu, a.jenis, a.keterangan, b.nama_kategori, a.kategori_id, a.harga, a.image, a.updated_at, a.status, a.created_at
                 from $this->table a
                 left join menu_kategori b on a.kategori_id = b.id
                 
@@ -27,8 +27,6 @@ class Menu extends Model
         }
         
         $data = json_decode(json_encode(DB::select($sql)), true);
-
-        // return ($data);
 
         for ($i=0; $i <count($data); $i++) { 
             $data[$i]['atribute'] = $this->get_all_atribute($data[$i]['id']);

@@ -171,6 +171,7 @@ class MenuController extends Controller
             'harga' => $request->harga,
             'keterangan' => $request->keterangan,
             'image' => $request->image,
+            'status' => $request->status,
         ];
 
         return $data;

@@ -30,6 +30,7 @@ class MenuTables extends Migration
             $table->float('harga',20,2);
             $table->text('keterangan')->nullable();
             $table->text('image')->nullable();
+            $table->integer('status')->autoIncrement(false)->default(1);
             $table->timestamps();
         });
         

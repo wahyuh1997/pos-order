@@ -74,7 +74,11 @@ class Pesanan extends Model
     {
         $date =  \date('Y-m-d');
         $last_pesanan = DB::table('pesanan')->whereRaw("cast(created_at as date) = current_date")->orderBy('created_at', 'desc')->first();
-        return sprintf("%03d", (Int)$last_pesanan->no_order + 1);
+        if ($last_pesanan) {
+            return sprintf("%03d", (Int)$last_pesanan->no_order + 1);
+        } else {
+            return "001";
+        }
     }
 
     function get_all_detail($id)

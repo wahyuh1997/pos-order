@@ -110,14 +110,8 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'role' => $request->role
             ]);
-
-            if (strlen($request->password) < 1) {
-                $user->update([
-                    'password' => Hash::make($request->password)
-                ]);
-            }
             
-            if (strlen($request->role) < 1) {
+            if (strlen($request->role) > 1) {
                 $user->update([
                     'role' => $request->role
                 ]);
@@ -128,11 +122,28 @@ class AuthController extends Controller
             return $this->return_failed($th->getMessage());
         }
     }
-    
-    public function reset_password($username)
+
+    public function change_password(Request $request)
     {
         try {
-            $user = User::where('username', $username)->firstOrFail();
+            $user = User::where('username', $request->username)->firstOrFail();
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+        
+        try {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+    
+    public function reset_password(Request $request)
+    {
+        try {
+            $user = User::where('username', $request->username)->firstOrFail();
             
             $user->update([
                 'password' => Hash::make('12345678'),
@@ -144,11 +155,10 @@ class AuthController extends Controller
         }
     }
     
-    public function delete_user($username)
+    public function delete_user(Request $request)
     {
-        // return $username;
         try {
-            $user = User::where('username', $username)->firstOrFail();
+            $user = User::where('username', $request->username)->firstOrFail();
             
             $user->delete();
 
