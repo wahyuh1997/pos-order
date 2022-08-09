@@ -29,7 +29,11 @@ class PesananController extends Controller
         $model = new Pesanan();
 
         $data = $this->get_field_pesanan_request($request);
-        $data['no_order'] = $model->create_no_pesanan();
+        try {
+            $data['no_order'] = $model->create_no_pesanan();
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
         $pesanan = Pesanan::create($data);
     
         return $this->return_success('Menu berhasil ditambahkan!', $model->get_pesanan($pesanan->id)[0]);

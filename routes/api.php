@@ -1,9 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin:  *');
-header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization'); 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +10,6 @@ use App\Http\Controllers\API\PesananController;
 
 Route::prefix('customer')->group(function(){
     Route::get('/get_order/{code}', [PesananController::class, 'get_qr_code']);
-    // Route::get('/get_order/{code}', function(){return 1;});
     
     Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
     Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
@@ -68,9 +63,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::prefix('order')->group(function(){
         Route::post('/insert_order', [PesananController::class, 'insert_order']);
-        // Route::post('/insert_order', function(){
-        //     return 1;
-        // });
         Route::get('/get_order/{id}', [PesananController::class, 'get_order']);
         Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
         Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
