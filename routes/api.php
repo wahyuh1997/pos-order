@@ -35,9 +35,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('auth')->group(function(){
         Route::get('get_user/{username}', [AuthController::class, 'get_user']);
-        Route::get('get_all_user/', [AuthController::class, 'get_all_user']);
+        Route::get('get_all_user', [AuthController::class, 'get_all_user']);
+        Route::get('set_role', [AuthController::class, 'set_role']);
         
-        Route::post('update_user', [AuthController::class, 'edit_user']);
+        Route::put('update_user/{id}', [AuthController::class, 'edit_user']);
         Route::post('reset_password', [AuthController::class, 'reset_password']);
         Route::post('change_password', [AuthController::class, 'change_password']);
         Route::post('delete_user', [AuthController::class, 'delete_user']);

@@ -92,30 +92,38 @@ class AuthController extends Controller
         }
     }
 
-    public function edit_user(Request $request)
+    public function edit_user($id, Request $request)
     {
         try {
-            $user = User::where('username', $request->username)->firstOrFail();
+            $user = User::findOrFail($id);
 
-            $validator = Validator::make($request->all(),[
-                'name' => 'string|max:50',
-                'role' => 'string|max:255',
-            ]);
+            $valid = [
+                'name' => 'required|string|max:50',
+                'role' => 'required|string|max:255'
+            ];
+
+            $update = ['name' => $request->name,
+                'role' => $request->role];
+
+            if ($user->username != $request->username && strlen(trim($request->username)) > 0) {
+                $valid['username'] =  'required|string|unique:users';
+                $update['username'] = $request->username;
+            }
+            $validator = Validator::make($request->all(),$valid);
 
             if($validator->fails()){
                 return $this->return_failed($validator->errors());
             }
 
-            $user->update([
-                'name' => $request->name,
-                'role' => $request->role
-            ]);
+            $user->update($update);
             
             if (strlen($request->role) > 1) {
                 $user->update([
                     'role' => $request->role
                 ]);
             }
+
+            $user = User::findOrFail($id);
 
             return $this->return_success('data berhasil diubah!',$user);
         } catch (\Throwable $th) {
