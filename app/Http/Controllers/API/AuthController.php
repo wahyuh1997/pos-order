@@ -143,6 +143,7 @@ class AuthController extends Controller
             $user->update([
                 'password' => Hash::make($request->password)
             ]);
+            return $this->return_success('Update password berhasil',[]);
         } catch (\Throwable $th) {
             return $this->return_failed($th->getMessage());
         }
