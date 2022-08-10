@@ -142,6 +142,7 @@ class AuthController extends Controller
     
     public function reset_password(Request $request)
     {
+        // return $request;
         try {
             $user = User::where('username', $request->username)->firstOrFail();
             
@@ -149,7 +150,7 @@ class AuthController extends Controller
                 'password' => Hash::make('12345678'),
             ]);
 
-            return $this->return_success('password di reset menjadi "12345678"',$user);
+            return $this->return_success('password di reset menjadi : 12345678',$user);
         } catch (\Throwable $th) {
             return $this->return_failed($th->getMessage());
         }
