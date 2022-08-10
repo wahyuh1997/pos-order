@@ -92,14 +92,14 @@ class AuthController extends Controller
         }
     }
 
-    public function edit_user($username, Request $request)
+    public function edit_user(Request $request)
     {
         try {
-            $user = User::where('username', $username)->firstOrFail();
+            $user = User::where('username', $request->username)->firstOrFail();
 
             $validator = Validator::make($request->all(),[
                 'name' => 'string|max:50',
-                'username' => 'string|max:255|unique:users',
+                'role' => 'string|max:255',
             ]);
 
             if($validator->fails()){
