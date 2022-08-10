@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('delete_user', [AuthController::class, 'delete_user']);
     });
     
-    Route::get('/logout', [AuthController::class, 'logout']);
+    // Route::get('/logout', [AuthController::class, 'logout']);
     
     
     Route::prefix('menu')->group(function(){
