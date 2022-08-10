@@ -158,11 +158,11 @@ class Pesanan extends Model
     function get_dashboard()
     {
         $data = [
-            'total_pengunjung' => $this->total_pengunjung(),
-            'pendapatan_harian' => $this->pendapatan_harian(),
-            'menu_terjual_harian' => $this->menu_terjual_harian(),
-            'penjualan_bulanan' => $this->penjualan_bulanan(),
-            'top_menu' => $this->top_menu(),
+            'total_pengunjung' => $this->total_pengunjung()['total_pengunjung'],
+            'pendapatan_harian' => $this->pendapatan_harian()['pendapatan_harian'],
+            'menu_terjual_harian' => $this->menu_terjual_harian()['menu_terjual_harian'],
+            'penjualan_bulanan' => $this->penjualan_bulanan()['penjualan_bulanan'],
+            'top_menu' => $this->top_menu()['top_menu'],
         ];
         return $data;
     }
