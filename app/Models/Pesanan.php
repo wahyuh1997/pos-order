@@ -41,7 +41,7 @@ class Pesanan extends Model
 
         $sql = "select a.*, b.no_meja
                 ,(select 
-                    (case when harga is null then 0 else (sub_harga*qty) end) harga
+                    sum((case when sub_harga*qty is null then 0 else (sub_harga*qty) end)) harga
                 from pesanan_detail 
                 where pesanan_id = a.id
                 ) as total_harga
@@ -59,10 +59,8 @@ class Pesanan extends Model
 
 
         for ($i=0; $i <count($data); $i++) { 
-            $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
-            // $data[$i]['kode_unik'] = Crypt::encryptString($data[$i]['id']);
-            // $data[$i]['kode_unik'] = base64_encode($data[$i]['id']);
             $data[$i]['kode_unik'] = $this->encrypt_decrypt('encrypt', $data[$i]['id']);
+            $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
         }
 
 

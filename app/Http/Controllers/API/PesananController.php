@@ -22,7 +22,12 @@ class PesananController extends Controller
     {
         $model = new Pesanan();
 
-        return $this->return_success('',$model->get_pesanan($id)[0]);
+        try {
+            return $this->return_success('',$model->get_pesanan($id)[0]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
     }
 
     function insert_order(Request $request){
@@ -43,21 +48,20 @@ class PesananController extends Controller
     {
         try {
             $model = new Pesanan();
-            $pesanan = Pesanan::find($request->pesanan_id);
+            $pesanan = Pesanan::findOrFail($request->pesanan_id);
             if ($pesanan->checkout == 0) {
-                for ($i=0; $i <count($request->data); $i++) { 
-                    $data = [];
-                    $data['pesanan'] = $pesanan->id;
-
-                    $insert = $request->data[$i];
-                    foreach ($insert as $key => $value) {
-                        $data[$key] = $value;
-                    }
-                    PesananDetail::create($data);
-                }
+                PesananDetail::create([
+                    'pesanan_id' => $pesanan->id,
+                    'menu_id' => $request->menu_id,
+                    'name_attribute' => $request->name_attribute,
+                    'harga' => $request->harga,
+                    'sub_harga' => $request->sub_harga,
+                    'qty' => $request->qty, 
+                    'status' => 0,
+                ]);
                 return $this->return_success('',$model->get_pesanan($pesanan->id)[0]);
             } else {
-                return $this->return_failed('Orderan anda sudah selesai');
+                return $this->return_failed('Orderan anda sudah selesai, silahkan ke kasir untuk membuat orderan baru');
             }
         } catch (Exception $e) {
             return $this->return_failed($e->getMessage());
