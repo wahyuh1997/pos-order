@@ -171,12 +171,12 @@ class Pesanan extends Model
 
     function get_menu_kitchen($id = null)
     {
-        $sql = "select a.*, b.no_meja
-                ,(select 
-                    sum((case when sub_harga*qty is null then 0 else (sub_harga*qty) end)) harga
-                from pesanan_detail 
-                where pesanan_id = a.id
-                ) as total_harga
+        $sql = "select a.id, a.no_order, b.no_meja, a.created_at
+                --,(select 
+                --    sum((case when sub_harga*qty is null then 0 else (sub_harga*qty) end)) harga
+                --from pesanan_detail 
+                --where pesanan_id = a.id
+                --) as total_harga
                 from $this->table a
                 left join meja b on b.id = a.meja_id
                 ";

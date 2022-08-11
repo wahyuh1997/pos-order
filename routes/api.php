@@ -18,7 +18,7 @@ Route::prefix('customer')->group(function(){
     Route::post('/insert_order_detail', [PesananController::class, 'insert_order_detail']);
     Route::delete('/delete_order_detail/{id}', [PesananController::class, 'delete_order_detail']);
     Route::put('/update_order_detail/{id}', [PesananController::class, 'update_order_detail']);
-    Route::get('/final_order_detail/{id}', [PesananController::class, 'update_order_detail']);
+    Route::get('/final_order_detail/{id}', [PesananController::class, 'final_order_detail']);
 });
 
 Route::prefix('menu')->group(function(){

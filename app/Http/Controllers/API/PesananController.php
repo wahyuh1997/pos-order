@@ -137,10 +137,19 @@ class PesananController extends Controller
         return $this->return_success('Berhasil diubah!', $model->get_pesanan($pesananDetail->id)[0]);
     }
     
-    function final_order_detail($id)
+    function final_order_detail($id, Request $request)
     {
         try {
-            $pesananDetail = PesananDetail::findOrFail($id);
+            Pesanan::findOrfail($id)->update([
+                'pajak' => $request->pajak,
+                'total_harga' => $request->total_harga
+            ]);
+        } catch (\Throwable $e) {
+            return $this->return_failed($e->getMessage());
+        }
+
+        try {
+            $pesananDetail = PesananDetail::where(['pesanan_id' => $id, 'status' => 0]);
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }
