@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\KitchenController;
 use App\Http\Controllers\API\MenuController;
 use App\Http\Controllers\API\PesananController;
 
@@ -86,13 +87,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
     });
 
-    Route::prefix('dapur')->prefix(function(){
-        Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
-        Route::get('/update', [PesananController::class, 'update_order']);
-    });
-    
-    Route::prefix('dapur')->prefix(function(){
-        Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
+    Route::prefix('kitchen')->group(function(){
+        Route::get('/get_order_detail', [KitchenController::class, 'get_order_detail']);
         Route::get('/update', [PesananController::class, 'update_order']);
     });
 

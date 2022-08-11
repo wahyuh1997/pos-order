@@ -11,7 +11,15 @@ class KitchenController extends Controller
 {
     function get_order_detail()
     {
+        // return 1;
         $model = new Pesanan();
+
+        try {
+            return $model->get_menu_kitchen();
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+
     }
 
     function confirmation_menu($id, Request $request)
@@ -30,11 +38,14 @@ class KitchenController extends Controller
             $pesananDetail->update([
                 'status' => $request->status
             ]);
-
+            
             if ($request->status == 1) {
                 return $this->return_success('pesanan sudah siap dihidangkan!', []);
             } else {
-                return $this->return_success('pesanan sudah siap dihidangkan!', []);
+                $pesananDetail->update([
+                    'keterangan' => $request->keterangan
+                ]);
+                return $this->return_success('pesanan batal dihidangkan!', []);
             }
         } catch (\Throwable $th) {
             return $this->return_failed($th->getMessage());

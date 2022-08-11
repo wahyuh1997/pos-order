@@ -169,27 +169,27 @@ class Pesanan extends Model
         return $data;
     }
 
-    function get_menu_kitchen($id = null)
+    function get_menu_kitchen()
     {
         $sql = "select a.id, a.no_order, b.no_meja, a.created_at
-                --,(select 
-                --    sum((case when sub_harga*qty is null then 0 else (sub_harga*qty) end)) harga
-                --from pesanan_detail 
-                --where pesanan_id = a.id
-                --) as total_harga
                 from $this->table a
                 left join meja b on b.id = a.meja_id
+                where status = 0
                 ";
-        if (strlen($id) > 0) {
-            $sql .= "where a.id = $id ";
-        }
         $sql .= "order by a.created_at desc";
         
         $data = json_decode(json_encode(DB::select($sql)), true);
 
 
         for ($i=0; $i <count($data); $i++) {
-            $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
+            $sql = "
+                    select a.id, a.qty, b.nama_menu, b.image, a.name_attribute, a.status, a.created_at, a.updated_at
+                    from pesanan_detail a
+                    left join menu b on a.menu_id = b.id
+                    where a.pesanan_id = :pesanan_id
+                    and a.status = 2
+                    ";
+            $data[$i]['order_detail'] = json_decode(json_encode(DB::select($sql, ['pesanan_id' => $data[$i]['id']])), true);;
         }
 
         return $data;
