@@ -55,8 +55,6 @@ class Pesanan extends Model
                 from pesanan_detail 
                 where pesanan_id = a.id
                 ) as total_harga
-                , a.meja_id, b.no_meja
-                ,a.updated_at, a.created_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
                 ";
@@ -172,6 +170,32 @@ class Pesanan extends Model
             'penjualan_bulanan' => $this->penjualan_bulanan()['penjualan_bulanan'],
             'top_menu' => $this->top_menu()['top_menu'],
         ];
+        return $data;
+    }
+
+    function get_menu_kitchen($id = null)
+    {
+        $sql = "select a.*, b.no_meja
+                ,(select 
+                    sum((case when sub_harga*qty is null then 0 else (sub_harga*qty) end)) harga
+                from pesanan_detail 
+                where pesanan_id = a.id
+                ) as total_harga
+                from $this->table a
+                left join meja b on b.id = a.meja_id
+                ";
+        if (strlen($id) > 0) {
+            $sql .= "where a.id = $id ";
+        }
+        $sql .= "order by a.created_at desc";
+        
+        $data = json_decode(json_encode(DB::select($sql)), true);
+
+
+        for ($i=0; $i <count($data); $i++) {
+            $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
+        }
+
         return $data;
     }
 
