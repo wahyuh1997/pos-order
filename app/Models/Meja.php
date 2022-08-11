@@ -34,6 +34,5 @@ class Meja extends Model
                 ";
         
         return $data = json_decode(json_encode(DB::select($sql)), true);
-        // return $sql;
     }
 }

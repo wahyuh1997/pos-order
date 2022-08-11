@@ -165,4 +165,13 @@ class PesananController extends Controller
 
         return $this->return_success('Menu akan di proses!', []);
     }
+
+    function history()
+    {
+        $model = new Pesanan();
+
+        return $this->return_success('',$model->get_pesanan());
+    }
+
+    
 }
