@@ -25,7 +25,7 @@ class PesananController extends Controller
         try {
             return $this->return_success('',$model->get_pesanan($id)[0]);
         } catch (\Throwable $th) {
-            throw $th;
+            return $this->return_failed($th->getMessage());
         }
 
     }
@@ -82,20 +82,6 @@ class PesananController extends Controller
             return $this->return_failed($th->getMessage());
         }
     }
-    
-    function update_order_detail($id, Request $request)
-    {
-        try {
-            $pesanan = PesananDetail::findOrFail($id);
-
-            $pesanan->update([
-                'status' => $request->data[['status']]
-            ]);
-            return $this->return_success('berhasil!', []);
-        } catch (\Throwable $th) {
-            return $this->return_failed($th->getMessage());
-        }
-    }
 
     private function get_field_pesanan_request($request)
     {
@@ -118,7 +104,55 @@ class PesananController extends Controller
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }
+    }
+    
+    function delete_order_detail($id)
+    {
+        try {
+            PesananDetail::findOrFail($id)->delete();
+            return $this->return_success('Berhasil dihapus', []);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+    }
+    
+    function update_order_detail($id, Request $request)
+    {
+        try {
+            $pesananDetail = PesananDetail::findOrFail($id);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+        try {
+            $pesananDetail->update([
+                'harga' => $request->harga,
+                'sub_harga' => $request->sub_harga,
+                'qty' => $request->qty
+            ]);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+        $model = new Pesanan();
 
+        return $this->return_success('Berhasil diubah!', $model->get_pesanan($pesananDetail->id)[0]);
+    }
+    
+    function final_order_detail($id)
+    {
+        try {
+            $pesananDetail = PesananDetail::findOrFail($id);
+        } catch (\Throwable $e) {
+            return $this->return_failed($e->getMessage());
+        }
         
+        try{
+            $pesananDetail->update([
+                'status' => 2
+            ]);
+        } catch (\Throwable $e) {
+            return $this->return_failed($e->getMessage());
+        }
+
+        return $this->return_success('Menu akan di proses!', []);
     }
 }

@@ -10,13 +10,16 @@ use App\Http\Controllers\API\PesananController;
 
 Route::prefix('customer')->group(function(){
     Route::get('/get_order/{code}', [PesananController::class, 'get_qr_code']);
-    
-    Route::post('/insert_order_detail', [PesananController::class, 'insert_order_detail']);
+    // order
     Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
-
     Route::get('/get_menu/{id}', [MenuController::class, 'get_menu']);
+    
+    // order detail
+    Route::post('/insert_order_detail', [PesananController::class, 'insert_order_detail']);
+    Route::delete('/delete_order_detail/{id}', [PesananController::class, 'delete_order_detail']);
+    Route::put('/update_order_detail/{id}', [PesananController::class, 'update_order_detail']);
+    Route::get('/final_order_detail/{id}', [PesananController::class, 'update_order_detail']);
 
-    // Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
 });
 
 
@@ -79,7 +82,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/get_all_order', [PesananController::class, 'get_all_order']);
         Route::get('/update', [PesananController::class, 'update_order']);
     });
-
-
 
 });
