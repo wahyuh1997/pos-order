@@ -180,9 +180,15 @@ class MenuController extends Controller
 
     function get_all_meja()
     {
-        $meja = Meja::all();
+        $model = new Meja();
 
-        return $this->return_success('', $meja);
+        try {
+            return $this->return_success('', $model->get_meja());
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+
+        }
+
     }
     
     function get_meja($id)
