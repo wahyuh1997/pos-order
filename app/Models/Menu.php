@@ -14,6 +14,16 @@ class Menu extends Model
     protected $fillable = ['nama_menu', 'jenis', 'kategori_id', 'harga','image','status'];
     protected $guarded = ['id'];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->timestamps = false;
+            $model->created_at = now();
+        });
+    }
+
     function get_menu($id = null)
     {
 

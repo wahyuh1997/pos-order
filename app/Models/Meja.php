@@ -12,4 +12,14 @@ class Meja extends Model
     protected $table = 'meja';
 
     protected $fillable = ['no_meja'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->timestamps = false;
+            $model->created_at = now();
+        });
+    }
 }

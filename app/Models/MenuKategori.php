@@ -23,4 +23,14 @@ class MenuKategori extends Model
     return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->timestamps = false;
+            $model->created_at = now();
+        });
+    }
+
 }

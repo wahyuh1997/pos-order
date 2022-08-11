@@ -15,6 +15,9 @@ class Pesanan extends Model
 
     protected $fillable = ['no_order','no_receip','meja_id','nama_pelanggan','status','checkout'];
 
+    const CREATED_AT = 'creation_date';
+    const UPDATED_AT = 'updated_date';
+
     function get_field($request){
         // return $this->fillable;
         $data = [];
