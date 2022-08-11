@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Meja;
 use App\Models\Menu;
 use App\Models\MenuAtribute;
 use App\Models\MenuKategori;
@@ -175,5 +176,66 @@ class MenuController extends Controller
         ];
 
         return $data;
+    }
+
+    function get_all_meja()
+    {
+        $meja = Meja::all();
+
+        return $this->return_success('', $meja);
+    }
+    
+    function get_meja($id)
+    {
+        try {
+            $meja = Meja::findOrFail($id);
+        } catch (\Throwable $th) {
+            return $this->return_failed('data tidak ada!');
+        }
+
+        return $this->return_success('', $meja);
+    }
+    
+    function edit_meja($id, Request $request)
+    {
+        try {
+            $meja = Meja::findOrFail($id);
+        } catch (\Throwable $th) {
+            return $this->return_failed('data tidak ada!');
+        }
+        
+        try {
+            $meja->update([
+                'no_meja' => $request->no_meja
+            ]);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+
+        return $this->return_success('update berhasil', $meja);
+    }
+    
+    function insert_meja(Request $request)
+    {
+        try {
+            $meja = Meja::create([
+                'no_meja' => $request->no_meja
+            ]);
+        } catch (\Throwable $th) {
+            return $this->return_failed($th->getMessage());
+        }
+
+        return $this->return_success('Tambah meja berhasil!', $meja);
+    }
+    
+    function delete_meja($id)
+    {
+        try {
+            Meja::findOrFail($id)->delete();
+        } catch (\Throwable $th) {
+            return $this->return_failed('data tidak ada');
+        }
+
+        return $this->return_success('Meja berhasil dihapus!', []);
     }
 }

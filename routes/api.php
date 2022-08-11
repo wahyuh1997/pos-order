@@ -69,6 +69,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         
         Route::delete('/delete_attribute/{nama}', [MenuController::class, 'delete_attribute']);
         Route::get('/get_name_attribute', [MenuController::class, 'get_name_attribute']);
+        
+        Route::get('/get_all_meja/', [MenuController::class, 'get_all_meja']);
+        Route::get('/get_meja/{id}', [MenuController::class, 'get_meja']);
+        Route::put('/edit_meja/{id}', [MenuController::class, 'edit_meja']);
+        Route::post('/insert_meja/', [MenuController::class, 'insert_meja']);
+        Route::delete('/delete_meja/{id}', [MenuController::class, 'delete_meja']);
     });
     
     Route::prefix('order')->group(function(){
