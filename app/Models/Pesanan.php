@@ -15,6 +15,15 @@ class Pesanan extends Model
 
     protected $fillable = ['no_order','no_receip','meja_id','nama_pelanggan','status','checkout'];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->timestamps = false;
+            $model->created_at = now();
+        });
+    }
 
     function get_field($request){
         // return $this->fillable;
