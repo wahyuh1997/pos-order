@@ -50,6 +50,7 @@ class MenuTables extends Migration
             $table->string('payment_type')->nullable();
             $table->float('pajak', 20,2)->nullable();
             $table->float('total_harga', 20,2)->nullable();
+            $table->float('sub_total', 20,2)->nullable();
             $table->integer('status', 1)->default(0)->comment('0 = input kasir, 2 = selesai, 1 = batal')->autoIncrement(false);
             $table->integer('checkout', 1)->default(0)->comment('0 = belum bayar, 1 = bayar')->autoIncrement(false);
             $table->timestamps();
