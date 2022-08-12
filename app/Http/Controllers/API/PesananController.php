@@ -190,7 +190,6 @@ class PesananController extends Controller
                 'pajak' => $request->pajak,
                 'total_harga' => $request->total_harga,
                 'sub_total' => $request->sub_total,
-                'sub_total' => $request->sub_total,
                 'total_harga' => $request->total_harga,
                 'bayar' => $request->bayar,
                 'kembalian' => $request->kembalian,
