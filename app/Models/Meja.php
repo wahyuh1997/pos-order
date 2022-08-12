@@ -26,7 +26,7 @@ class Meja extends Model
 
     public function get_meja()
     {
-        $sql = "select a.id, a.no_meja
+        $sql = "select a.*
                 from $this->table a
                 where id not in (SELECT meja_id
                             FROM pesanan
