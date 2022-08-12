@@ -42,9 +42,13 @@ class KitchenController extends Controller
             if ($request->status == 1) {
                 return $this->return_success('pesanan sudah siap dihidangkan!', []);
             } else {
-                $pesananDetail->update([
-                    'keterangan' => $request->keterangan
-                ]);
+                try {
+                    $pesananDetail->update([
+                        'keterangan' => $request->keterangan
+                    ]);
+                } catch (\Throwable $th) {
+                    return $this->return_failed($th->getMessage());
+                }
                 return $this->return_success('pesanan batal dihidangkan!', []);
             }
         } catch (\Throwable $th) {
