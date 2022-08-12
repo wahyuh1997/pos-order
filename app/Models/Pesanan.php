@@ -98,6 +98,7 @@ class Pesanan extends Model
         $sql = "
         SELECT count(*) as total_pengunjung FROM pesanan
         WHERE cast(created_at AS date) BETWEEN cast(NOW() - INTERVAL 1 DAY AS date) AND CURRENT_DATE
+        and status = 1
         ";
         return json_decode(json_encode(DB::select($sql)), true);
     }
@@ -105,10 +106,10 @@ class Pesanan extends Model
     private function pendapatan_harian()
     {
         $sql = "
-        SELECT sum(b.harga*qty) as pendapatan_harian 
+        SELECT COALESCE(sum(a.total_harga), 0) as pendapatan_harian 
         FROM pesanan a
-        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 1
-        WHERE cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
+        WHERE a.status = 1
+        AND cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
         ";
         return json_decode(json_encode(DB::select($sql)), true);
         // return $sql;
@@ -117,7 +118,7 @@ class Pesanan extends Model
     private function menu_terjual_harian()
     {
         $sql = "
-        SELECT sum(qty) as menu_harian 
+        SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
         FROM pesanan a
         LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 1
         WHERE cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
@@ -128,10 +129,9 @@ class Pesanan extends Model
     private function penjualan_bulanan()
     {
         $sql = "
-        SELECT sum(qty) as menu_harian 
+        SELECT coalesce(sum(a.total_harga),0) as penjualan_bulanan 
         FROM pesanan a
-        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 1
-        WHERE cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
+        WHERE a.status = 1 and cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
         ";
         return json_decode(json_encode(DB::select($sql)), true);
     }
@@ -157,14 +157,34 @@ class Pesanan extends Model
         return json_decode(json_encode(DB::select($sql)), true);
     }
 
+    function pendapatan_per_bulan($tahun = null)
+    {
+        $tahun = $tahun ?? date('Y'); 
+
+        $bulan['tahun'] = $tahun;
+        for ($i=1; $i <= 12; $i++) { 
+            $sql = "
+                SELECT coalesce(sum(a.total_harga),0) as penjualan_bulanan 
+                FROM pesanan a
+                WHERE a.status = 1 and Month(a.created_at) = 1 and Year(a.created_at) = $tahun
+            ";
+
+            $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['penjualan_bulanan'];
+        }
+
+        return $bulan;
+
+    }
+
     function get_dashboard()
     {
         $data = [
-            'total_pengunjung' => $this->total_pengunjung()['total_pengunjung'],
-            'pendapatan_harian' => $this->pendapatan_harian()['pendapatan_harian'],
-            'menu_terjual_harian' => $this->menu_terjual_harian()['menu_terjual_harian'],
-            'penjualan_bulanan' => $this->penjualan_bulanan()['penjualan_bulanan'],
-            'top_menu' => $this->top_menu()['top_menu'],
+            'total_pengunjung' => $this->total_pengunjung()[0]['total_pengunjung'],
+            'pendapatan_harian' => $this->pendapatan_harian()[0]['pendapatan_harian'],
+            'menu_terjual_harian' => $this->menu_terjual_harian()[0]['menu_terjual_harian'],
+            'penjualan_bulanan' => $this->penjualan_bulanan()[0]['penjualan_bulanan'],
+            'top_menu' => $this->top_menu(),
+            'grafik_bulanan' => $this->pendapatan_per_bulan(),
         ];
         return $data;
     }
