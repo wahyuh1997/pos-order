@@ -24,6 +24,16 @@ class Menu extends Model
         });
     }
 
+    public function getUpdatedAtAttribute()
+    {
+    return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+    return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
+    }
+
     function get_menu($id = null)
     {
 

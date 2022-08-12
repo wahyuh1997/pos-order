@@ -24,9 +24,19 @@ class Meja extends Model
         });
     }
 
+    public function getUpdatedAtAttribute()
+    {
+    return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d H:i:s');
+    }
+
+    public function getCreatedAtAttribute()
+    {
+    return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
+    }
+
     public function get_meja()
     {
-        $sql = "select a.*
+        $sql = "select a.id, a.no_meja, a.created_at, a.updated_at
                 from $this->table a
                 where id not in (SELECT meja_id
                             FROM pesanan
