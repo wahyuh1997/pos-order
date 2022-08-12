@@ -134,7 +134,7 @@ class PesananController extends Controller
         }
         $model = new Pesanan();
 
-        return $this->return_success('Berhasil diubah!', $model->get_pesanan($pesananDetail->id)[0]);
+        return $this->return_success('Berhasil diubah!', $model->get_pesanan($pesananDetail->pesanan_id)[0]);
     }
     
     function final_order_detail($id, Request $request)
