@@ -194,6 +194,48 @@ class Pesanan extends Model
 
         return $data;
     }
+    
+    function get_history_order($id = null)
+    {
+        $sql = "select a.id
+                        ,a.no_order
+                        ,a.no_receip
+                        ,b.no_meja
+                        ,a.nama_pelanggan
+                        ,a.payment_type
+                        ,a.pajak
+                        ,a.total_harga
+                        ,a.sub_total
+                        ,a.bayar
+                        ,a.kembalian
+                        ,a.status
+                        ,a.checkout
+                        ,a.updated_at
+                        ,a.created_at
+                from $this->table a
+                left join meja b on b.id = a.meja_id
+                ";
+        if (strlen($id) > 0) {
+            $sql .= "where a.id = $id ";
+        }
+        $sql .= "order by a.created_at desc";
+        
+        $data = json_decode(json_encode(DB::select($sql)), true);
+
+
+        for ($i=0; $i <count($data); $i++) {
+            $sql = "
+                    select a.id, a.qty, b.nama_menu, b.image, a.name_attribute, a.status, a.created_at, a.updated_at
+                    from pesanan_detail a
+                    left join menu b on a.menu_id = b.id
+                    where a.pesanan_id = :pesanan_id
+                    and a.status = 1
+                    ";
+            $data[$i]['order_detail'] = json_decode(json_encode(DB::select($sql, ['pesanan_id' => $data[$i]['id']])), true);;
+        }
+
+        return $data;
+    }
 
     function encrypt_decrypt($action, $string){
         $output = false;

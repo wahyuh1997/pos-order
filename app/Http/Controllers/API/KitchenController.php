@@ -30,8 +30,8 @@ class KitchenController extends Controller
             return $this->return_failed($th->getMessage());
         }
         
-        if (!$pesananDetail->status == 2) {
-            return $this->return_failed('sudah tidak bisa diubah');
+        if ($pesananDetail->status == 2) {
+            return $this->return_failed('sudah tidak bisa diubah!');
         }
         
         try {
@@ -44,7 +44,10 @@ class KitchenController extends Controller
             } else {
                 try {
                     $pesananDetail->update([
-                        'keterangan' => $request->keterangan
+                        'keterangan' => $request->keterangan,
+                        'harga' => 0,
+                        'sub_harga' => 0,
+                        'qty' => 0
                     ]);
                 } catch (\Throwable $th) {
                     return $this->return_failed($th->getMessage());

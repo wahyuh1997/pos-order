@@ -85,11 +85,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/update_order/{id}', [PesananController::class, 'update_order']);
         
         Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
+
+        Route::get('/history_all_order', [PesananController::class, 'history_all_order']);
     });
 
     Route::prefix('kitchen')->group(function(){
         Route::get('/get_order_detail', [KitchenController::class, 'get_order_detail']);
-        Route::get('/update', [PesananController::class, 'update_order']);
+        Route::put('/confirmation_menu/{id}', [KitchenController::class, 'confirmation_menu']);
     });
 
 });

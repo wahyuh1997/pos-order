@@ -51,6 +51,8 @@ class MenuTables extends Migration
             $table->float('pajak', 20,2)->nullable();
             $table->float('total_harga', 20,2)->nullable();
             $table->float('sub_total', 20,2)->nullable();
+            $table->float('bayar', 20,2)->nullable();
+            $table->float('kembalian', 20,2)->nullable();
             $table->integer('status', 1)->default(0)->comment('0 = input kasir, 2 = selesai, 1 = batal')->autoIncrement(false);
             $table->integer('checkout', 1)->default(0)->comment('0 = belum bayar, 1 = bayar')->autoIncrement(false);
             $table->timestamps();
@@ -71,7 +73,7 @@ class MenuTables extends Migration
             $table->string('keterangan')->nullable();
             $table->string('name_attribute')->nullable();
             $table->integer('qty',3)->default(1)->autoIncrement(false);
-            $table->integer('status', 1)->default(0)->comment('0 = belum bayar, 1 = bayar')->autoIncrement(false);
+            $table->integer('status', 1)->default(0)->comment('0 = input customer, 2 = masak, 3 = cancel, 1 = selesai')->autoIncrement(false);
             $table->timestamps();
         });
     }

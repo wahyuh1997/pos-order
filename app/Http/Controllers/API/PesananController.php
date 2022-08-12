@@ -162,15 +162,49 @@ class PesananController extends Controller
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }
-
+        
         return $this->return_success('Menu akan di proses!', []);
     }
-
-    function history()
-    {
+    
+    function history_all_order(){
         $model = new Pesanan();
+        try {
+            return $model->get_history_order();
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $this->return_failed($e->getMessage());
+        }
+    }
+    
+    function final_pembayaran()
+    {
+        try {
+            $pesanan = Pesanan::findOrFail();
+        } catch (\Throwable $th) {
+            return $this->return_failed($e->getMessage());
+        }
+        
+        try {
+            $pesanan->update([
+                'pajak' => $request->pajak,
+                'total_harga' => $request->total_harga,
+                'sub_total' => $request->sub_total,
+                'sub_total' => $request->sub_total,
+                'total_harga' => $request->total_harga,
+                'pajak' => $request->total_harga,
+                'bayar' => $request->bayar,
+                'kembalian' => $request->kembalian,
+                'payment_type' => $request->payment_type,
+                'no_receip' => date('Ymd').$pesanan->no_receip,
+                'status' => 1,
+                'checkout' => 1
+            ]);
+        } catch (\Throwable $th) {
+            return $this->return_failed($e->getMessage());
+        }
 
-        return $this->return_success('',$model->get_pesanan());
+        return $this->return_success('Pesanan sudah selesai!', []);
     }
 
     
