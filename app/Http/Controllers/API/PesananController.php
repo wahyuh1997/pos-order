@@ -171,17 +171,17 @@ class PesananController extends Controller
         try {
             return $model->get_history_order();
             //code...
-        } catch (\Throwable $th) {
+        } catch (\Throwable $e) {
             //throw $th;
             return $this->return_failed($e->getMessage());
         }
     }
     
-    function final_pembayaran()
+    function final_pembayaran($id, Request $request)
     {
         try {
-            $pesanan = Pesanan::findOrFail();
-        } catch (\Throwable $th) {
+            $pesanan = Pesanan::findOrFail($id);
+        } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }
         
@@ -200,7 +200,7 @@ class PesananController extends Controller
                 'status' => 1,
                 'checkout' => 1
             ]);
-        } catch (\Throwable $th) {
+        } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }
 
