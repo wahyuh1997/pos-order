@@ -195,7 +195,7 @@ class PesananController extends Controller
                 'kembalian' => $request->kembalian,
                 'payment_type' => $request->payment_type,
                 'no_receip' => date('Ymd').$pesanan->no_receip,
-                'status' => 1,
+                'status' => 2,
                 'checkout' => 1
             ]);
         } catch (\Throwable $e) {
@@ -203,6 +203,28 @@ class PesananController extends Controller
         }
 
         return $this->return_success('Pesanan sudah selesai!', []);
+    }
+    
+    function batal_order($id)
+    {
+        try {
+            $pesanan = Pesanan::findOrFail($id);
+        } catch (\Throwable $e) {
+            return $this->return_failed($e->getMessage());
+        }
+        
+        try {
+            if ($pesanan->status == 1) {
+                return $this->return_failed('pesanan sudah dibatalkan');
+            }
+            
+            $pesanan->update([
+                'status' => 1
+            ]);
+        } catch (\Throwable $e) {
+            return $this->return_failed($e->getMessage());
+        }
+        return $this->return_success('Pesanan sudah dibatalkan!', []);
     }
     // ini commit
 
