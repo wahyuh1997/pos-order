@@ -139,8 +139,10 @@ class PesananController extends Controller
     
     function final_order_detail($id, Request $request)
     {
+        // return $request;
         try {
-            Pesanan::findOrfail($id)->update([
+            $pesanan = Pesanan::findOrfail($id);
+            $pesanan->update([
                 'pajak' => $request->pajak,
                 'total_harga' => $request->total_harga,
                 'sub_total' => $request->sub_total

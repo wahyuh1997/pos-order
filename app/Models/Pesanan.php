@@ -13,7 +13,8 @@ class Pesanan extends Model
 
     protected $table = 'pesanan';
 
-    protected $fillable = ['no_order','no_receip','meja_id','nama_pelanggan','status','checkout'];
+    // protected $fillable = ['no_order','no_receip','meja_id','nama_pelanggan','status','checkout'];
+    protected $guarded = ['id'];
 
     public static function boot()
     {
@@ -22,6 +23,9 @@ class Pesanan extends Model
         static::creating(function ($model) {
             $model->timestamps = false;
             $model->created_at = now();
+        });
+        static::updating(function ($model) {
+            $model->timestamps = true;
         });
     }
 
@@ -247,7 +251,7 @@ class Pesanan extends Model
         $sql = "select a.id, a.no_order, b.no_meja, a.status, a.created_at, a.updated_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
-                where status = 0 and cast(a.created_at as date) = current_date
+                
                 ";
         $sql .= "order by a.created_at desc";
         
