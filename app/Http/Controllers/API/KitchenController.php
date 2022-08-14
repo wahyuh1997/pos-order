@@ -11,11 +11,10 @@ class KitchenController extends Controller
 {
     function get_order_detail()
     {
-        // return 1;
         $model = new Pesanan();
 
         try {
-            return $model->get_menu_kitchen();
+            return $this->return_success('', $model->get_menu_kitchen());
         } catch (\Throwable $th) {
             return $this->return_failed($th->getMessage());
         }

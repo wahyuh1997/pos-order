@@ -247,7 +247,7 @@ class Pesanan extends Model
         $sql = "select a.id, a.no_order, b.no_meja, a.created_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
-                where status = 0
+                where status = 0 and cast(a.created_at as date) = current_date
                 ";
         $sql .= "order by a.created_at desc";
         
