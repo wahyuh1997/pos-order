@@ -29,7 +29,7 @@ class KitchenController extends Controller
             return $this->return_failed($th->getMessage());
         }
         
-        if ($pesananDetail->status == 2) {
+        if ($pesananDetail->status != 2) {
             return $this->return_failed('sudah tidak bisa diubah!');
         }
         
