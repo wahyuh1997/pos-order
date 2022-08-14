@@ -266,7 +266,6 @@ class Pesanan extends Model
                     from pesanan_detail a
                     left join menu b on a.menu_id = b.id
                     where a.pesanan_id = :pesanan_id
-                    and a.status = 2
                     ";
             $data[$i]['order_detail'] = json_decode(json_encode(DB::select($sql, ['pesanan_id' => $data[$i]['id']])), true);;
         }
