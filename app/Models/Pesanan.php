@@ -251,9 +251,11 @@ class Pesanan extends Model
         $sql = "select a.id, a.no_order, b.no_meja, a.status, a.created_at, a.updated_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
-                where status = 0 and cast(a.created_at as date) = current_date
+                where status = 0 
+                and a.updated_at is not null
+                and cast(a.created_at as date) = current_date
                 ";
-        $sql .= "order by a.updated_at desc";
+        $sql .= "order by a.updated_at asc";
         
         $data = json_decode(json_encode(DB::select($sql)), true);
 
