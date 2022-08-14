@@ -253,7 +253,7 @@ class Pesanan extends Model
                 left join meja b on b.id = a.meja_id
                 where status = 0 and cast(a.created_at as date) = current_date
                 ";
-        $sql .= "order by a.created_at desc";
+        $sql .= "order by a.updated_at desc";
         
         $data = json_decode(json_encode(DB::select($sql)), true);
 
