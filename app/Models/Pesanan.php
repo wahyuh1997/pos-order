@@ -244,7 +244,7 @@ class Pesanan extends Model
 
     function get_menu_kitchen()
     {
-        $sql = "select a.id, a.no_order, b.no_meja, a.created_at
+        $sql = "select a.id, a.no_order, b.no_meja, a.status, a.created_at, a.updated_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
                 where status = 0 and cast(a.created_at as date) = current_date
