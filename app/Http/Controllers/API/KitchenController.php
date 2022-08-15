@@ -14,6 +14,9 @@ class KitchenController extends Controller
         $model = new Pesanan();
 
         try {
+            if (count($model->get_menu_kitchen()) == 0) {
+                return $this->return_failed('data tidak ada!');
+            }
             return $this->return_success('', $model->get_menu_kitchen());
         } catch (\Throwable $th) {
             return $this->return_failed($th->getMessage());
