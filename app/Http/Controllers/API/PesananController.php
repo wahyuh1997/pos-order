@@ -143,9 +143,9 @@ class PesananController extends Controller
         try {
             $pesanan = Pesanan::findOrfail($id);
             $pesanan->update([
-                'pajak' => $request->pajak,
-                'total_harga' => $request->total_harga,
-                'sub_total' => $request->sub_total
+                'pajak' => ($pesanan->pajak??0) + $request->pajak,
+                'total_harga' => ($pesanan->total_harga??0) + $request->total_harga,
+                'sub_total' => ($pesanan->sub_total??0) + $request->sub_total
             ]);
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
