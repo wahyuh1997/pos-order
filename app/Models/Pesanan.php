@@ -112,7 +112,7 @@ class Pesanan extends Model
         $sql = "
         SELECT COALESCE(sum(a.total_harga), 0) as pendapatan_harian 
         FROM pesanan a
-        WHERE a.status = w
+        WHERE a.status = 2
         AND cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
         ";
         return json_decode(json_encode(DB::select($sql)), true);
