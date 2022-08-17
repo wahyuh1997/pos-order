@@ -15,11 +15,11 @@ class DashboardController extends Controller
 
         return $this->return_success('', $model->get_dashboard());
     }
-
+    
     function get_report(Request $request)
     {
         $model = new PesananDetail();
-
-        return $model->report($request->from_date??\date('Y-m-d'), $request->thru_date??\date('Y-m-d'));
+        
+        return $this->return_success('', $model->report($request->from_date??\date('Y-m-d'), $request->thru_date??\date('Y-m-d')));
     }
 }
