@@ -184,13 +184,12 @@ class Pesanan extends Model
         $bulan['tahun'] = $tahun;
         for ($i=1; $i <= 12; $i++) { 
             $sql = "
-                SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
+                SELECT coalesce(sum(a.total_harga),0) as pendapatan_bulanan 
                 FROM pesanan a
-                LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
                 WHERE a.status = 2 and Month(a.created_at) = $i and Year(a.created_at) = $tahun
             ";
 
-            $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['menu_terjual_harian'];
+            $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['pendapatan_bulanan'];
         }
 
         return $bulan;
@@ -204,12 +203,13 @@ class Pesanan extends Model
         $bulan['tahun'] = $tahun;
         for ($i=1; $i <= 12; $i++) { 
             $sql = "
-            SELECT coalesce(sum(a.total_harga),0) as penjualan_bulanan 
+            SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
             FROM pesanan a
+            LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
             WHERE a.status = 2 and Month(a.created_at) = $i and Year(a.created_at) = $tahun
             ";
 
-            $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['penjualan_bulanan'];
+            $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['menu_terjual_harian'];
         }
 
         return $bulan;
