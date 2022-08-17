@@ -159,12 +159,15 @@ class Pesanan extends Model
         limit 5
         ";
         $sql = "
-        select nama_menu, attribute
+        select nama_menu, attribute, harga, image
         from (
             select max(a.nama_menu) as nama_menu
-            , max(b.name_attribute) as attribute
+            , coalesce(max(b.name_attribute), '-') as attribute
+            , max(a.harga) +  coalesce(max(c.harga),0) as harga
+            , max(a.image) as image
             , sum(qty) as jumlah
             from menu a
+            left join attribute c on a.id = c.menu_id
             left join pesanan_detail b on b.menu_id = a.id and b.status = 2
             WHERE Month(b.created_at) = Month(CURRENT_DATE) and Year(b.created_at) = Year(CURRENT_DATE)
             group by a.id, b.name_attribute
