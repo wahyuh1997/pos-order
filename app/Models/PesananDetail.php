@@ -38,8 +38,8 @@ class PesananDetail extends Model
     public function report($from_date = null, $thru_date = null)
     {
         // $from_date = $from_date??\date('Y-m-d');
-        $from_date = '2022-08-01';
-        $thru_date = $thru_date??\date('Y-m-d');
+        // $from_date = '2022-08-01';
+        // $thru_date = $thru_date??\date('Y-m-d');
         $sql = "
             select max(a.nama_menu) as nama_menu
             , coalesce(max(b.name_attribute), '-') as attribute
