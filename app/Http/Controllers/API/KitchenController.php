@@ -45,6 +45,12 @@ class KitchenController extends Controller
                 return $this->return_success('pesanan sudah siap dihidangkan!', []);
             } else {
                 try {
+                    $pesanan = Pesanan::findOrFail($pesananDetail->pesanan_id);
+                    $pesanan->update([
+                        'sub_total' => $pesanan->sub_total - $pesananDetail->sub_harga,
+                        'pajak' => $pesanan->pajak - ($pesananDetail->sub_harga * 10/100),
+                        'total_harga' => $pesanan->total_harga - (($pesananDetail->sub_harga * 10/100) + $pesananDetail->sub_harga),
+                    ]);
                     $pesananDetail->update([
                         'keterangan' => $request->keterangan,
                         'harga' => 0,
