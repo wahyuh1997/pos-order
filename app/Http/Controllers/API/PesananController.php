@@ -195,7 +195,7 @@ class PesananController extends Controller
                 'bayar' => $request->bayar,
                 'kembalian' => $request->kembalian,
                 'payment_type' => $request->payment_type,
-                'no_receip' => date('Ymd').$pesanan->no_receip,
+                'no_receip' => date('Ymd').$pesanan->no_order,
                 'status' => 2,
                 'checkout' => 1
             ]);
