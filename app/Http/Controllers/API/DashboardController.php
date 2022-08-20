@@ -18,7 +18,14 @@ class DashboardController extends Controller
     function get_report(Request $request)
     {
         $model = new PesananDetail();
+
+        if ($request->type  == 2) {
+            return $this->return_success('Laporan Product', $model->report_product($request->start??\date('Y-m-d'), $request->end??\date('Y-m-d')));
+        } elseif ($request->type == 1){
+            return $this->return_success('Laporan Penjualan', $model->report_penjualan($request->start??\date('Y-m-d'), $request->end??\date('Y-m-d')));
+        } else {
+            return $this->return_failed('Type is wrong!');
+        }
         
-        return $this->return_success('', $model->report($request->from_date??\date('Y-m-d'), $request->thru_date??\date('Y-m-d')));
     }
 }
