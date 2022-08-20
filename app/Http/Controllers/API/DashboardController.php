@@ -9,11 +9,10 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    function get_dashboard()
+    function get_dashboard(Request $request)
     {
         $model = new Pesanan();
-
-        return $this->return_success('', $model->get_dashboard());
+        return $this->return_success('', $model->get_dashboard($request->tahun??null));
     }
     
     function get_report(Request $request)

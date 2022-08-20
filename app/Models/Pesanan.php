@@ -184,7 +184,6 @@ class Pesanan extends Model
     {
         $tahun = $tahun ?? date('Y'); 
 
-        $bulan['tahun'] = $tahun;
         for ($i=1; $i <= 12; $i++) { 
             $sql = "
                 SELECT coalesce(sum(a.total_harga),0) as pendapatan_bulanan 
@@ -195,7 +194,12 @@ class Pesanan extends Model
             $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['pendapatan_bulanan'];
         }
 
-        return $bulan;
+        $return = [
+            'tahun' => $tahun,
+            'value' => $bulan
+        ];
+
+        return $return;
 
     }
     
@@ -203,7 +207,6 @@ class Pesanan extends Model
     {
         $tahun = $tahun ?? date('Y'); 
 
-        $bulan['tahun'] = $tahun;
         for ($i=1; $i <= 12; $i++) { 
             $sql = "
             SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
@@ -215,14 +218,19 @@ class Pesanan extends Model
             $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['menu_terjual_harian'];
         }
 
-        return $bulan;
+        
+        $return = [
+            'tahun' => $tahun,
+            'value' => $bulan
+        ];
+
+        return $return;
     }
     
     function grafik_table_used($tahun = null)
     {
         $tahun = $tahun ?? date('Y'); 
 
-        $bulan['tahun'] = $tahun;
         for ($i=1; $i <= 12; $i++) { 
             $sql = "
             SELECT count(*) as total_pengunjung FROM pesanan a
@@ -232,7 +240,13 @@ class Pesanan extends Model
             $bulan[$i] = json_decode(json_encode(DB::select($sql)), true)[0]['total_pengunjung'];
         }
 
-        return $bulan;
+        
+        $return = [
+            'tahun' => $tahun,
+            'value' => $bulan
+        ];
+
+        return $return;
     }
 
     function get_dashboard($tahun = null)
