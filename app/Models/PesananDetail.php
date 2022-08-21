@@ -42,7 +42,7 @@ class PesananDetail extends Model
             , coalesce(max(b.name_attribute), '-') as attribute
             , max(a.harga) +  coalesce(max(c.harga),0) as harga
             , sum(qty) as jumlah
-            , max(b.sub_harga) as total_harga
+            , sum(b.sub_harga) as total_harga
             from menu a
             left join attribute c on a.id = c.menu_id
             left join pesanan_detail b on b.menu_id = a.id and b.status = 2
