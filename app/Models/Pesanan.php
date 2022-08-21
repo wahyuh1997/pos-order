@@ -105,8 +105,8 @@ class Pesanan extends Model
     private function total_pengunjung()
     {
         $sql = "
-        SELECT count(*) as total_pengunjung FROM pesanan
-        WHERE cast(created_at AS date) BETWEEN cast(NOW() - INTERVAL 1 DAY AS date) AND CURRENT_DATE
+        SELECT count(*) as total_pengunjung FROM pesanan a
+        WHERE Month(a.created_at) = Month(CURRENT_DATE) and Year(a.created_at) = Year(CURRENT_DATE)
         and status = 2
         ";
         return json_decode(json_encode(DB::select($sql)), true);
@@ -114,11 +114,17 @@ class Pesanan extends Model
     
     private function pendapatan_harian()
     {
-        $sql = "
+        $sqlx = "
         SELECT COALESCE(sum(a.total_harga), 0) as pendapatan_harian 
         FROM pesanan a
         WHERE a.status = 2
         AND cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
+        ";
+        $sql = "
+        SELECT COALESCE(sum(a.total_harga), 0) as pendapatan_harian 
+        FROM pesanan a
+        WHERE a.status = 2
+        and Month(a.created_at) = Month(CURRENT_DATE) and Year(a.created_at) = Year(CURRENT_DATE)
         ";
         return json_decode(json_encode(DB::select($sql)), true);
         // return $sql;
@@ -126,11 +132,17 @@ class Pesanan extends Model
     
     private function menu_terjual_harian()
     {
-        $sql = "
+        $sqlx = "
         SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
         FROM pesanan a
         LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
         WHERE cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 day AS date) AND CURRENT_DATE
+        ";
+        $sql = "
+        SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
+        FROM pesanan a
+        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
+        WHERE Month(a.created_at) = Month(CURRENT_DATE) and Year(a.created_at) = Year(CURRENT_DATE)
         ";
         return json_decode(json_encode(DB::select($sql)), true);
     }
@@ -148,7 +160,7 @@ class Pesanan extends Model
     private function top_menu()
     {
         $sqlx = "
-        select nama_menu, attribute
+        select nama_menu, attribute, jumlah
         from (
             select max(a.nama_menu) as nama_menu
             , max(b.name_attribute) as attribute
@@ -164,7 +176,7 @@ class Pesanan extends Model
         limit 5
         ";
         $sql = "
-        select nama_menu, attribute, harga, image
+        select nama_menu, attribute, harga, image, jumlah
         from (
             select max(a.nama_menu) as nama_menu
             , coalesce(max(b.name_attribute), '-') as attribute
