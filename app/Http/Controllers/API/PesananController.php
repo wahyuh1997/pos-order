@@ -96,9 +96,6 @@ class PesananController extends Controller
     function get_qr_code($code)
     {
         try {
-            // $id = Crypt::decryptString($code);
-            $id = base64_decode($code);
-            $id =$this->encrypt_decrypt('decrypt',$code);
             $model = new Pesanan();
             return $this->return_success('', $model->get_pesanan()[0]);
         } catch (\Throwable $e) {

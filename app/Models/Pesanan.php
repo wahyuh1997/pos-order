@@ -89,7 +89,7 @@ class Pesanan extends Model
 
     function get_all_detail($id)
     {
-        $sql = "select a.id, a.harga, a.sub_harga, a.qty, a.menu_id, b.nama_menu, b.image, a.name_attribute, a.status, a.created_at, a.updated_at
+        $sql = "select a.id, a.harga, a.sub_harga, a.qty, a.menu_id, b.nama_menu, b.image, a.name_attribute, a.status, a.keterangan, a.created_at, a.updated_at
                 from pesanan_detail a
                 left join menu b on a.menu_id = b.id
                 where a.pesanan_id = :pesanan_id
@@ -280,7 +280,7 @@ class Pesanan extends Model
 
         for ($i=0; $i <count($data); $i++) {
             $sql = "
-                    select a.id, a.qty, b.nama_menu, b.image, a.name_attribute, a.status, a.created_at, a.updated_at
+                    select a.id, a.qty, b.nama_menu, b.image, a.name_attribute, a.status, a.keterangan, a.created_at, a.updated_at
                     from pesanan_detail a
                     left join menu b on a.menu_id = b.id
                     where a.pesanan_id = :pesanan_id
