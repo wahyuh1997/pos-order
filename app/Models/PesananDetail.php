@@ -55,9 +55,9 @@ class PesananDetail extends Model
     
         $data['report'] = json_decode(json_encode(DB::select($sql, ['from_date'=>$from_date,'thru_date'=> $thru_date])), true);
     
-        $sql = "select sum(total_harga) as jumlah_pendapatan
+        $sql = "select sum(total_harga) as jumlah_pendapatan, sum(jumlah) as jumlah_item, avg(total_harga) as rata_rata
                 from ($sql) as a";
-        $data['jumlah_pendapatan'] = json_decode(json_encode(DB::select($sql, ['from_date'=>$from_date,'thru_date'=> $thru_date])), true)[0]['jumlah_pendapatan'];
+        $data['detail_pendapatan'] = json_decode(json_encode(DB::select($sql, ['from_date'=>$from_date,'thru_date'=> $thru_date])), true)[0];
         return $data;
     }
     
