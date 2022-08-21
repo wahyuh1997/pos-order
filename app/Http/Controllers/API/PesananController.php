@@ -88,6 +88,7 @@ class PesananController extends Controller
         $data = [
             'nama_pelanggan' => $request->nama_pelanggan,
             'meja_id' => $request->meja_id,
+            'created_by' => $request->created_by,
         ];
 
         return $data;
@@ -168,8 +169,8 @@ class PesananController extends Controller
     function history_all_order(){
         $model = new Pesanan();
         try {
-            return $model->get_history_order();
-            //code...
+            // return $model->get_history_order();
+            return $this->return_success('',$model->get_history_order());
         } catch (\Throwable $e) {
             //throw $th;
             return $this->return_failed($e->getMessage());

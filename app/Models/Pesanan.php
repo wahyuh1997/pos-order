@@ -54,9 +54,14 @@ class Pesanan extends Model
     {
 
         $sql = "select a.*, b.no_meja
-                
+                ,(
+                    case when a.created_by is null then '-'
+                    else c.username
+                    end
+                ) created_by_username
                 from $this->table a
                 left join meja b on b.id = a.meja_id
+                left join users c on a.created_by = c.id
                 ";
         if (strlen($id) > 0) {
             $sql .= "where a.id = $id ";
@@ -306,10 +311,17 @@ class Pesanan extends Model
                         ,a.kembalian
                         ,a.status
                         ,a.checkout
+                        ,a.created_by
+                        ,(
+                            case when a.created_by is null then '-'
+                            else c.username
+                            end
+                        ) created_by_username
                         ,a.updated_at
                         ,a.created_at
                 from $this->table a
                 left join meja b on b.id = a.meja_id
+                left join users c on a.created_by = c.id
                 ";
         if (strlen($id) > 0) {
             $sql .= "where a.id = $id ";
