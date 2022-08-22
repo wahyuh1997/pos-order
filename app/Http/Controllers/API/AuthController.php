@@ -27,6 +27,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
         return $this->return_success('Data berhasil didaftarkan!',$user);
