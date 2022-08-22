@@ -88,6 +88,7 @@ class PesananController extends Controller
         $data = [
             'nama_pelanggan' => $request->nama_pelanggan,
             'meja_id' => $request->meja_id,
+            'created_by' => $request->created_by,
         ];
 
         return $data;
@@ -96,9 +97,6 @@ class PesananController extends Controller
     function get_qr_code($code)
     {
         try {
-            // $id = Crypt::decryptString($code);
-            $id = base64_decode($code);
-            $id =$this->encrypt_decrypt('decrypt',$code);
             $model = new Pesanan();
             return $this->return_success('', $model->get_pesanan()[0]);
         } catch (\Throwable $e) {
@@ -143,9 +141,9 @@ class PesananController extends Controller
         try {
             $pesanan = Pesanan::findOrfail($id);
             $pesanan->update([
-                'pajak' => $request->pajak,
-                'total_harga' => $request->total_harga,
-                'sub_total' => $request->sub_total
+                'pajak' => ($pesanan->pajak??0) + $request->pajak,
+                'total_harga' => ($pesanan->total_harga??0) + $request->total_harga,
+                'sub_total' => ($pesanan->sub_total??0) + $request->sub_total
             ]);
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
@@ -171,8 +169,8 @@ class PesananController extends Controller
     function history_all_order(){
         $model = new Pesanan();
         try {
-            return $model->get_history_order();
-            //code...
+            // return $model->get_history_order();
+            return $this->return_success('',$model->get_history_order());
         } catch (\Throwable $e) {
             //throw $th;
             return $this->return_failed($e->getMessage());
@@ -192,11 +190,10 @@ class PesananController extends Controller
                 'pajak' => $request->pajak,
                 'total_harga' => $request->total_harga,
                 'sub_total' => $request->sub_total,
-                'total_harga' => $request->total_harga,
                 'bayar' => $request->bayar,
                 'kembalian' => $request->kembalian,
                 'payment_type' => $request->payment_type,
-                'no_receip' => date('Ymd').$pesanan->no_receip,
+                'no_receip' => date('Ymd').$pesanan->no_order,
                 'status' => 2,
                 'checkout' => 1
             ]);

@@ -14,6 +14,9 @@ class KitchenController extends Controller
         $model = new Pesanan();
 
         try {
+            if (count($model->get_menu_kitchen()) == 0) {
+                return $this->return_failed('data tidak ada!');
+            }
             return $this->return_success('', $model->get_menu_kitchen());
         } catch (\Throwable $th) {
             return $this->return_failed($th->getMessage());
@@ -42,6 +45,12 @@ class KitchenController extends Controller
                 return $this->return_success('pesanan sudah siap dihidangkan!', []);
             } else {
                 try {
+                    $pesanan = Pesanan::findOrFail($pesananDetail->pesanan_id);
+                    $pesanan->update([
+                        'sub_total' => $pesanan->sub_total - $pesananDetail->sub_harga,
+                        'pajak' => $pesanan->pajak - ($pesananDetail->sub_harga * 10/100),
+                        'total_harga' => $pesanan->total_harga - (($pesananDetail->sub_harga * 10/100) + $pesananDetail->sub_harga),
+                    ]);
                     $pesananDetail->update([
                         'keterangan' => $request->keterangan,
                         'harga' => 0,

@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::get('dashboard', [DashboardController::class, 'get_dashboard']);
+    Route::post('report', [DashboardController::class, 'get_report']);
 
     Route::prefix('auth')->group(function(){
         Route::get('get_user/{username}', [AuthController::class, 'get_user']);
