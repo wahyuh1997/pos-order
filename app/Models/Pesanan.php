@@ -56,7 +56,7 @@ class Pesanan extends Model
         $sql = "select a.*, b.no_meja
                 ,(
                     case when a.created_by is null then '-'
-                    else c.username
+                    else c.name
                     end
                 ) created_by_username
                 from $this->table a
@@ -326,7 +326,7 @@ class Pesanan extends Model
                         ,a.created_by
                         ,(
                             case when a.created_by is null then '-'
-                            else c.username
+                            else c.name
                             end
                         ) created_by_username
                         ,a.updated_at
