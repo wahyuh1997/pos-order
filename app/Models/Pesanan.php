@@ -141,8 +141,9 @@ class Pesanan extends Model
         $sql = "
         SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
         FROM pesanan a
-        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
+        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id
         WHERE Month(a.created_at) = Month(CURRENT_DATE) and Year(a.created_at) = Year(CURRENT_DATE)
+        and and b.status = 1
         ";
         return json_decode(json_encode(DB::select($sql)), true);
     }
