@@ -43,7 +43,7 @@ class KitchenController extends Controller
             
             if ($request->status == 1) {
                 return $this->return_success('pesanan sudah siap dihidangkan!', []);
-            } else {
+            } else if($request->status == 3) {
                 try {
                     $pesanan = Pesanan::findOrFail($pesananDetail->pesanan_id);
                     $pesanan->update([

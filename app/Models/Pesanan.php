@@ -114,12 +114,14 @@ class Pesanan extends Model
     
     private function pendapatan_harian()
     {
+        /*
         $sqlx = "
         SELECT COALESCE(sum(a.total_harga), 0) as pendapatan_harian 
         FROM pesanan a
         WHERE a.status = 2
         AND cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 month AS date) AND CURRENT_DATE
         ";
+        */
         $sql = "
         SELECT COALESCE(sum(a.total_harga), 0) as pendapatan_harian 
         FROM pesanan a
@@ -132,18 +134,19 @@ class Pesanan extends Model
     
     private function menu_terjual_harian()
     {
+        /*
         $sqlx = "
         SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
         FROM pesanan a
         LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
         WHERE cast(a.created_at as date) BETWEEN cast(NOW() - INTERVAL 1 day AS date) AND CURRENT_DATE
         ";
+        */
         $sql = "
         SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
         FROM pesanan a
-        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id
-        WHERE Month(a.created_at) = Month(CURRENT_DATE) and Year(a.created_at) = Year(CURRENT_DATE)
-        and and b.status = 1
+        LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 1
+        WHERE a.status = 2 and Month(a.created_at) = Month(CURRENT_DATE) and Year(a.created_at) = Year(CURRENT_DATE)
         ";
         return json_decode(json_encode(DB::select($sql)), true);
     }
@@ -160,6 +163,7 @@ class Pesanan extends Model
     
     private function top_menu()
     {
+        /*
         $sqlx = "
         select nama_menu, attribute, jumlah
         from (
@@ -176,6 +180,7 @@ class Pesanan extends Model
         order by a.jumlah desc 
         limit 5
         ";
+        */
         $sql = "
         select nama_menu, attribute, harga, image, jumlah
         from (
@@ -186,7 +191,7 @@ class Pesanan extends Model
             , sum(qty) as jumlah
             from menu a
             left join attribute c on a.id = c.menu_id
-            left join pesanan_detail b on b.menu_id = a.id and b.status = 2
+            left join pesanan_detail b on b.menu_id = a.id and b.status = 1
             WHERE Month(b.created_at) = Month(CURRENT_DATE) and Year(b.created_at) = Year(CURRENT_DATE)
             group by a.id, b.name_attribute
             order by a.id
@@ -229,7 +234,7 @@ class Pesanan extends Model
             $sql = "
             SELECT coalesce(sum(qty), 0) as menu_terjual_harian 
             FROM pesanan a
-            LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 2
+            LEFT JOIN  pesanan_detail b on b.pesanan_id = a.id and b.status = 1
             WHERE a.status = 2 and Month(a.created_at) = $i and Year(a.created_at) = $tahun
             ";
 
