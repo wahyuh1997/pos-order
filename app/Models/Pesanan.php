@@ -190,8 +190,8 @@ class Pesanan extends Model
             , max(a.image) as image
             , sum(qty) as jumlah
             from menu a
-            left join attribute c on a.id = c.menu_id
-            left join pesanan_detail b on b.menu_id = a.id and b.status = 1
+            inner join pesanan_detail b on b.menu_id = a.id and b.status = 1
+            left join attribute c on a.id = b.menu_id and c.nama = b.name_attribute
             WHERE Month(b.created_at) = Month(CURRENT_DATE) and Year(b.created_at) = Year(CURRENT_DATE)
             group by a.id, b.name_attribute
             order by a.id
