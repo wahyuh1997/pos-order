@@ -81,10 +81,10 @@ class MenuController extends Controller
                 'status' => ($menu->status == 1? 0:1)
             ]);
         } catch (\Throwable $th) {
-            return $this->return_failed('Proses Gagal');
+            return $this->return_failed('Proses Gagal!');
         }
 
-        return $this->return_success('', $menu);
+        return $this->return_success('Status berhasil diubah!', $menu);
     }
     
     function get_all_menu(){
