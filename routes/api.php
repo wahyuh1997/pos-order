@@ -88,7 +88,7 @@ Route::get('/set_role', [AuthController::class, 'set_role']);
         Route::post('/insert_order_detail/{id}', [PesananController::class, 'insert_order_detail']);
 
         Route::get('/history_all_order', [PesananController::class, 'history_all_order']);
-        Route::get('/batal_order/{id}', [PesananController::class, 'batal_order']);
+        Route::put('/batal_order/{id}', [PesananController::class, 'batal_order']);
         Route::put('/final_order/{id}', [PesananController::class, 'final_pembayaran']);
     });
 

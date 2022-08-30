@@ -204,7 +204,7 @@ class PesananController extends Controller
         return $this->return_success('Pesanan sudah selesai!', []);
     }
     
-    function batal_order($id)
+    function batal_order($id, Request $request)
     {
         try {
             $pesanan = Pesanan::findOrFail($id);
@@ -218,7 +218,8 @@ class PesananController extends Controller
             }
             
             $pesanan->update([
-                'status' => 1
+                'status' => 1,
+                'keterangan' => $request->keterangan
             ]);
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
