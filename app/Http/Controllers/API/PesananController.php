@@ -98,7 +98,7 @@ class PesananController extends Controller
     {
         try {
             $model = new Pesanan();
-            return $this->return_success('', $model->get_pesanan()[0]);
+            return $this->return_success('', $model->get_pesanan_customer($code, 'decrypt')[0]);
         } catch (\Throwable $e) {
             return $this->return_failed($e->getMessage());
         }

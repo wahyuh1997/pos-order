@@ -50,9 +50,8 @@ class Pesanan extends Model
     return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d H:i:s');
     }
 
-    function get_pesanan($id = null)
+    function get_pesanan($id = null, $status = 'encrypt')
     {
-
         $sql = "select a.*, b.no_meja
                 ,(
                     case when a.created_by is null then '-'
@@ -72,14 +71,20 @@ class Pesanan extends Model
 
 
         for ($i=0; $i <count($data); $i++) { 
-            // $data[$i]['kode_unik'] = $this->encrypt_decrypt('encrypt', $data[$i]['id']);
-            $data[$i]['kode_unik'] = date('Ymd', strtotime($data[$i]['created_at'])) . $data[$i]['no_order'];
+            $data[$i]['kode_unik'] = $this->encrypt_decrypt('encrypt', $data[$i]['id']);
+            // $data[$i]['kode_unik'] = date('Ymd', strtotime($data[$i]['created_at'])) . $data[$i]['no_order'];
             $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
         }
 
-
         return $data;
 
+    }
+
+    function get_pesanan_customer($id){
+        $id = $this->encrypt_decrypt('decrypt', $id);
+
+        // return $id;
+        return $this->get_pesanan($id);
     }
 
     function create_no_pesanan()
