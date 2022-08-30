@@ -68,6 +68,7 @@ Route::get('/set_role', [AuthController::class, 'set_role']);
         Route::post('/insert_menu', [MenuController::class, 'insert_menu']);
         Route::put('/edit_menu/{id}', [MenuController::class, 'edit_menu']);
         Route::delete('/delete_menu/{id}', [MenuController::class, 'delete_menu']);
+        Route::get('/change_status/{id}', [MenuController::class, 'change_status']);
         
         Route::delete('/delete_attribute/{nama}', [MenuController::class, 'delete_attribute']);
         Route::get('/get_name_attribute', [MenuController::class, 'get_name_attribute']);
@@ -75,7 +76,6 @@ Route::get('/set_role', [AuthController::class, 'set_role']);
         Route::get('/get_all_meja/', [MenuController::class, 'get_all_meja']);
         Route::get('/get_meja/{id}', [MenuController::class, 'get_meja']);
         Route::put('/edit_meja/{id}', [MenuController::class, 'edit_meja']);
-        Route::get('/change_status/{id}', [MenuController::class, 'change_status']);
         Route::post('/insert_meja/', [MenuController::class, 'insert_meja']);
         Route::delete('/delete_meja/{id}', [MenuController::class, 'delete_meja']);
     });
