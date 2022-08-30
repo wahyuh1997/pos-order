@@ -37,7 +37,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/set_role', [AuthController::class, 'set_role']);
 
-Route::group(['middleware' => ['auth:sanctum']], function () {
+// Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/home', function(Request $request) {
         return $request->user();
     });
@@ -97,4 +97,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::put('/confirmation_menu/{id}', [KitchenController::class, 'confirmation_menu']);
     });
 
-});
+// });
