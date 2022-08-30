@@ -72,7 +72,8 @@ class Pesanan extends Model
 
 
         for ($i=0; $i <count($data); $i++) { 
-            $data[$i]['kode_unik'] = $this->encrypt_decrypt('encrypt', $data[$i]['id']);
+            // $data[$i]['kode_unik'] = $this->encrypt_decrypt('encrypt', $data[$i]['id']);
+            $data[$i]['kode_unik'] = date('Ymd', strtotime($data[$i]['created_at'])) . $data[$i]['no_order'];
             $data[$i]['order_detail'] = $this->get_all_detail($data[$i]['id']);
         }
 
