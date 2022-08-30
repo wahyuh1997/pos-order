@@ -42,8 +42,6 @@ class AuthController extends Controller
         }
         
         $user = User::where('username', $request['username'])->firstOrFail();
-        
-        $user->tokens()->delete();
 
         $data = [
             'detail_user' => $user
