@@ -69,6 +69,24 @@ class MenuController extends Controller
         return $this->return_success('', $get_menu[0]);
     }
     
+    function change_status($id){
+        try {
+            $menu = Menu::findOrFail($id);
+        } catch (\Throwable $th) {
+            return $this->return_failed('Data Tidak Ada');
+        }
+        
+        try {
+            $menu->update([
+                'status' => ($menu->status == 1? 0:1)
+            ]);
+        } catch (\Throwable $th) {
+            return $this->return_failed('Proses Gagal');
+        }
+
+        return $this->return_success('', $menu);
+    }
+    
     function get_all_menu(){
         $menu = new Menu();
         
