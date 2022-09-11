@@ -40,7 +40,7 @@ class PesananDetail extends Model
         $sql = "
             select max(a.nama_menu) as nama_menu
             , coalesce(max(b.name_attribute), '-') as attribute
-            , max(a.harga) +  coalesce(max(c.harga),0) as harga
+            , b.harga as harga
             , sum(qty) as jumlah
             , sum(b.sub_harga) as total_harga
             from menu a
