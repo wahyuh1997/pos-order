@@ -45,7 +45,7 @@ class PesananDetail extends Model
             , sum(b.sub_harga) as total_harga
             from menu a
             left join attribute c on a.id = c.menu_id
-            left join pesanan_detail b on b.menu_id = a.id and b.status = 2
+            left join pesanan_detail b on b.menu_id = a.id and b.status = 1
             WHERE cast(b.created_at as date) BETWEEN cast(:from_date as date) AND cast(:thru_date as date)
             group by a.id, b.name_attribute, b.harga
             order by a.id
@@ -69,7 +69,7 @@ class PesananDetail extends Model
             , sum(qty) as jumlah
             from menu a
             left join attribute c on a.id = c.menu_id
-            left join pesanan_detail b on b.menu_id = a.id and b.status = 2
+            left join pesanan_detail b on b.menu_id = a.id and b.status = 1
             WHERE cast(b.created_at as date) BETWEEN cast(:from_date as date) AND cast(:thru_date as date)
             group by a.id, b.name_attribute
             order by a.id
